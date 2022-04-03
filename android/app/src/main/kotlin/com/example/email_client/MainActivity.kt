@@ -1,4 +1,4 @@
-package com.example.random3
+package com.example.email_client
 
 import io.flutter.embedding.android.FlutterActivity
 

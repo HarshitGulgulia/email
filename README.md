@@ -1,4 +1,4 @@
-# random3
+# email_client
 
 A new Flutter project.
 

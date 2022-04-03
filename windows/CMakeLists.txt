@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(random3 LANGUAGES CXX)
+project(email_client LANGUAGES CXX)
 
-set(BINARY_NAME "random3")
+set(BINARY_NAME "email_client")
 
 cmake_policy(SET CMP0063 NEW)
 

@@ -1,6 +1,6 @@
 {
-    "name": "random3",
-    "short_name": "random3",
+    "name": "email_client",
+    "short_name": "email_client",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
