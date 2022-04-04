@@ -1,19 +1,20 @@
 import 'package:email_client/models/Email.dart';
 import 'package:enough_mail/enough_mail.dart';
+import 'package:flutter/material.dart';
 
-String userName = '1mv20is021@sirmvit.edu';
-String password = 'Hg@sirmvit';
-String imapServerHost = 'imap.gmail.com';
-int imapServerPort = 993;
-bool isImapServerSecure = true;
 
 class GetMail{
 
   List<Email> emails;
   List<MimeMessage> mail_message;
 
-  Future<void> getEmailData() async {
-    print("Test1");
+  String userName = '1mv20is021@sirmvit.edu';
+  String password = 'Hg@sirmvit';
+  String imapServerHost = 'imap.gmail.com';
+  int imapServerPort = 993;
+  bool isImapServerSecure = true;
+
+  Future<String> getImapEmail() async {
     final client = ImapClient(isLogEnabled: true);
     try {
       await client.connectToServer(imapServerHost, imapServerPort,
@@ -25,13 +26,45 @@ class GetMail{
       // fetch 10 most recent messages:
       final fetchResult = await client.fetchRecentMessages(
           messageCount: 30, criteria: 'BODY.PEEK[]');
-      mail_message=fetchResult.messages;
+      mail_message = fetchResult.messages;
       for (final message in fetchResult.messages) {
         printMessage(message);
       }
+      await client.logout();
+      return 'Data Loaded';
     } on ImapException catch (e) {
       print('IMAP failed with $e');
+      return 'error';
     }
+  }
+
+
+
+  Future<String> getEmail() async {
+    var response = await getImapEmail();
+    if (response == 'Data Loaded'){
+        emails = List.generate(
+          mail_message.length,
+              (index) =>
+              Email(
+                name: mail_message[index]
+                    .decodeSender()
+                    .first
+                    .toString(),
+                image: "assets/images/user_1.png",
+                subject: mail_message[index].decodeSubject(),
+                isAttachmentAvailable: mail_message[index].hasAttachments(),
+                isChecked: mail_message[index].isSeen,
+                tagColor: Colors.red,
+                time: mail_message[index].decodeDate().toString(),
+                body: (!mail_message[index].isTextPlainMessage())
+                    ? ' content-type: ${mail_message[index].mediaType}'
+                    : mail_message[index].decodeTextPlainPart(),
+                from_email: mail_message[index].fromEmail,
+              ),
+        );
+      }
+    return response;
   }
 
   void printMessage(MimeMessage message) {
@@ -53,38 +86,4 @@ class GetMail{
     }
   }
 
-  Future<String> getEmail() async {
-    await getEmail();
-    emails=List.generate(
-      mail_message.length,
-          (index) => Email(
-        name: mail_message[index].fromEmail,
-        image: "assets/images/user_1.png",
-        subject: mail_message[index].decodeSubject(),
-        isAttachmentAvailable: false,
-        isChecked: true,
-        tagColor: null,
-        time: mail_message[index].decodeDate().toString(),
-        body: mail_message[index].body.toString(),
-      ),
-    );
-    return 'Data Loaded';
-  }
-
 }
-
-
-
-// List.generate(
-//   demo_data.length,
-//       (index) => Email(
-//     name: demo_data[index]['name'],
-//     image: demo_data[index]['image'],
-//     subject: demo_data[index]['subject'],
-//     isAttachmentAvailable: demo_data[index]['isAttachmentAvailable'],
-//     isChecked: demo_data[index]['isChecked'],
-//     tagColor: demo_data[index]['tagColor'],
-//     time: demo_data[index]['time'],
-//     body: emailDemoText,
-//   ),
-// );

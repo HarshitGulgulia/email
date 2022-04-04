@@ -22,7 +22,7 @@ class EmailCard extends StatelessWidget {
     //  Here the shadow is not showing properly
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
+          horizontal: kDefaultPadding/2, vertical: kDefaultPadding / 2),
       child: InkWell(
         onTap: press,
         child: Stack(

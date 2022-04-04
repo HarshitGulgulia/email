@@ -28,8 +28,9 @@ class SideMenu extends StatelessWidget {
               Row(
                 children: [
                   Image.asset(
-                    "assets/images/Logo Outlook.png",
-                    width: 46,
+                    "assets/images/Tally-Prime-Logo.png",
+                    height: 80,
+                    width: 80,
                   ),
                   Spacer(),
                   // We don't want to show this close button on Desktop mood

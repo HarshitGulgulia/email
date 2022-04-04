@@ -40,11 +40,11 @@ class MainScreen extends StatelessWidget {
               child: SideMenu(),
             ),
             Expanded(
-              flex: _size.width > 1340 ? 3 : 5,
+              flex: _size.width > 1340 ? 4 : 5,
               child: ListOfEmails(emails: emails),
             ),
             Expanded(
-              flex: _size.width > 1340 ? 8 : 10,
+              flex: _size.width > 1340 ? 7 : 10,
               child: EmailScreen(email: emails[0]),
             ),
           ],
