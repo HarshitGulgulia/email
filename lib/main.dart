@@ -1,3 +1,4 @@
+import 'package:email_client/screens/loading_screen.dart';
 import 'package:email_client/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/services/get_mail.dart';
@@ -53,17 +54,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               )
             ];
           } else {
-            children = const <Widget>[
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Awaiting result...'),
-              )
-            ];
+            return Loader();
+            // children = const <Widget>[
+            //   SizedBox(
+            //     width: 60,
+            //     height: 60,
+            //     child: CircularProgressIndicator(),
+            //   ),
+            //   Padding(
+            //     padding: EdgeInsets.only(top: 16),
+            //     child: Text('Awaiting result...'),
+            //   )
+            // ];
           }
           return Center(
             child: Column(

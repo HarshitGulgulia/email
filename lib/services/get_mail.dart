@@ -27,9 +27,17 @@ class GetMail{
       final fetchResult = await client.fetchRecentMessages(
           messageCount: 30, criteria: 'BODY.PEEK[]');
       mail_message = fetchResult.messages;
+
       for (final message in fetchResult.messages) {
         printMessage(message);
       }
+
+      // for (final message in fetchResult.messages){
+      //   print(message.decodeSender().single.personalName);
+      //   print(" => flag: "+message.isFlagged.toString());
+      //   print("Flags are: ");
+      //   print(message.flags);
+      // }
       await client.logout();
       return 'Data Loaded';
     } on ImapException catch (e) {
@@ -44,19 +52,18 @@ class GetMail{
     var response = await getImapEmail();
     if (response == 'Data Loaded'){
         emails = List.generate(
+
           mail_message.length,
+
               (index) =>
               Email(
-                name: mail_message[index]
-                    .decodeSender()
-                    .first
-                    .toString(),
+                name: mail_message[index].decodeSender().single.personalName,
                 image: "assets/images/user_1.png",
                 subject: mail_message[index].decodeSubject(),
                 isAttachmentAvailable: mail_message[index].hasAttachments(),
-                isChecked: mail_message[index].isSeen,
+                isChecked: !(mail_message[index].isFlagged),
                 tagColor: Colors.red,
-                time: mail_message[index].decodeDate().toString(),
+                time: mail_message[index].decodeDate().toString().substring(0,10),
                 body: (!mail_message[index].isTextPlainMessage())
                     ? ' content-type: ${mail_message[index].mediaType}'
                     : mail_message[index].decodeTextPlainPart(),

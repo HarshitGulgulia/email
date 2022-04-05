@@ -5,6 +5,7 @@ import 'package:email_client/models/Email.dart';
 import 'package:email_client/screens/email/email_screen.dart';
 import 'components/list_of_emails.dart';
 
+// ignore: must_be_immutable
 class MainScreen extends StatelessWidget {
   List<Email> emails;
   MainScreen(List<Email> email) {

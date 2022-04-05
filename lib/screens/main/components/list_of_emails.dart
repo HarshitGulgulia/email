@@ -63,23 +63,26 @@ class _ListOfEmailsState extends State<ListOfEmails> {
 
 
                     Expanded(
-                      child: TextField(
-                        onChanged: (value) {/*Search to be implemented here*/},
-                        decoration: InputDecoration(
-                          hintText: "Search",
-                          fillColor: kBgLightColor,
-                          filled: true,
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(
-                                kDefaultPadding * 0.75), //15
-                            child: Image.asset(
-                              "assets/Icons/search.png",
-                              width: 24,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                        child: TextField(
+                          onChanged: (value) {/*Search to be implemented here*/},
+                          decoration: InputDecoration(
+                            hintText: "Search",
+                            fillColor: kBgLightColor,
+                            filled: true,
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.all(
+                                  kDefaultPadding * 0.75), //15
+                              child: Image.asset(
+                                "assets/Icons/search.png",
+                                width: 24,
+                              ),
                             ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide.none,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
                         ),
                       ),
@@ -119,6 +122,7 @@ class _ListOfEmailsState extends State<ListOfEmails> {
               Expanded(
                 child: ListView.builder(
                   itemCount: widget.emails.length,
+                  reverse: true,
                   // On mobile this active dosen't mean anything
                   itemBuilder: (context, index) => EmailCard(
                     isActive: Responsive.isMobile(context) ? false : index == 0,

@@ -16,7 +16,8 @@ class Header extends StatelessWidget {
       child: Row(
         children: [
           // We need this back button on mobile only
-          if (Responsive.isMobile(context)) BackButton(),
+          // if (Responsive.isMobile(context))
+          BackButton(),
           IconButton(
             icon: Image.asset(
               "assets/Icons/trash.png",

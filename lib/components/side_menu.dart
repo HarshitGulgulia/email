@@ -50,7 +50,7 @@ class SideMenu extends StatelessWidget {
                 onPressed: () {},
                 icon: Image.asset("assets/Icons/edit.png", width: 16),
                 label: Text(
-                  "New message",
+                  "Compose",
                   style: TextStyle(color: Colors.white),
                 ),
               ).addNeumorphism(
@@ -81,7 +81,7 @@ class SideMenu extends StatelessWidget {
                 title: "Inbox",
                 iconSrc: "assets/Icons/inbox.png",
                 isActive: true,
-                itemCount: 3,
+                //itemCount: 3,
               ),
               SideMenuItem(
                 press: () {},
