@@ -1,3 +1,4 @@
+import 'package:email_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/components/side_menu.dart';
 import 'package:email_client/responsive.dart';
@@ -6,30 +7,36 @@ import 'package:email_client/screens/email/email_screen.dart';
 import 'components/list_of_emails.dart';
 
 // ignore: must_be_immutable
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   List<Email> emails;
   MainScreen(List<Email> email) {
-    emails=email;
+    emails = email;
   }
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     // It provide us the width and height
     Size _size = MediaQuery.of(context).size;
-    print(emails[1].time);
+    print(widget.emails[1].time);
     return Scaffold(
       body: Responsive(
         // Let's work on our mobile part
-        mobile: ListOfEmails(emails: emails),
+        mobile: ListOfEmails(emails: widget.emails),
         tablet: Row(
           children: [
             Expanded(
               flex: 6,
-              child: ListOfEmails(emails: emails),
+              child: ListOfEmails(emails: widget.emails),
             ),
             Expanded(
               flex: 9,
-              child: EmailScreen(email: emails[emails.length-1]),
+              child:
+                  EmailScreen(email: widget.emails[widget.emails.length - 1]),
             ),
           ],
         ),
@@ -43,14 +50,26 @@ class MainScreen extends StatelessWidget {
             ),
             Expanded(
               flex: _size.width > 1340 ? 4 : 5,
-              child: ListOfEmails(emails: emails),
+              child: ListOfEmails(emails: widget.emails),
             ),
             Expanded(
               flex: _size.width > 1340 ? 7 : 10,
-              child: EmailScreen(email: emails[emails.length-1]),
+              child:
+                  EmailScreen(email: widget.emails[widget.emails.length - 1]),
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.refresh),
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyApp(),
+            ),
+          );
+        },
       ),
     );
   }
