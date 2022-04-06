@@ -81,7 +81,7 @@ class SideMenu extends StatelessWidget {
                 title: "Inbox",
                 iconSrc: "assets/Icons/inbox.png",
                 isActive: true,
-                //itemCount: 3,
+                itemCount: 3,
               ),
               SideMenuItem(
                 press: () {},
