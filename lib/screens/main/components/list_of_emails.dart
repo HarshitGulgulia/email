@@ -122,17 +122,16 @@ class _ListOfEmailsState extends State<ListOfEmails> {
               Expanded(
                 child: ListView.builder(
                   itemCount: widget.emails.length,
-                  reverse: true,
                   // On mobile this active dosen't mean anything
                   itemBuilder: (context, index) => EmailCard(
                     isActive: Responsive.isMobile(context) ? false : index == 0,
-                    email: widget.emails[index],
+                    email: widget.emails[widget.emails.length-1-index],
                     press: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              EmailScreen(email: widget.emails[index]),
+                              EmailScreen(email: widget.emails[widget.emails.length-1-index]),
                         ),
                       );
                     },

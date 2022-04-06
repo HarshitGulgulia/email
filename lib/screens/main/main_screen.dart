@@ -11,6 +11,7 @@ class MainScreen extends StatelessWidget {
   MainScreen(List<Email> email) {
     emails=email;
   }
+
   @override
   Widget build(BuildContext context) {
     // It provide us the width and height
@@ -28,7 +29,7 @@ class MainScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 9,
-              child: EmailScreen(email: emails[1]),
+              child: EmailScreen(email: emails[emails.length-1]),
             ),
           ],
         ),
@@ -46,7 +47,7 @@ class MainScreen extends StatelessWidget {
             ),
             Expanded(
               flex: _size.width > 1340 ? 7 : 10,
-              child: EmailScreen(email: emails[0]),
+              child: EmailScreen(email: emails[emails.length-1]),
             ),
           ],
         ),
