@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "776909374185",
+    "project_id": "emailclient-fafdc",
+    "storage_bucket": "emailclient-fafdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776909374185:android:a4ff6d7ffd96af2b046678",
+        "android_client_info": {
+          "package_name": "com.example.email_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776909374185-pf303nlnctoisnhetvju4bd87mjvvso3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.email_client",
+            "certificate_hash": "52aa5bf16258be13f271220b62cd12a0916a4f77"
+          }
+        },
+        {
+          "client_id": "776909374185-jbrottdv1bmd6gpv0e50ub6mdgq4863a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVW_2JiZCT_Y7wZdag4KVcPftuvzDDdL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776909374185-jbrottdv1bmd6gpv0e50ub6mdgq4863a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
