@@ -1,4 +1,4 @@
-import 'package:email_client/screens/login_screen.dart';
+import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/services/authapi.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
