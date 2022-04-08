@@ -1,18 +1,25 @@
+import 'package:email_client/screens/error/mail_loader_error.dart';
 import 'package:email_client/screens/loading_screen.dart';
 import 'package:email_client/screens/main/main_screen.dart';
 import 'package:email_client/services/get_mail.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 GetMail mails= GetMail();
 
 class MailLoader extends StatefulWidget {
-  const MailLoader({Key key}) : super(key: key);
-
+  const MailLoader({Key key, this.user}) : super(key: key);
+  final GoogleSignInAccount user;
   @override
   State<MailLoader> createState() => _MailLoaderState();
 }
 
 class _MailLoaderState extends State<MailLoader> {
+
+  // Future<String> dummy() async{
+  //   return 'Data Loaded';
+  // }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
@@ -25,26 +32,10 @@ class _MailLoaderState extends State<MailLoader> {
           if (snapshot.hasData) {
             return MainScreen(mails.emails);
           } else if (snapshot.hasError) {
-            children = <Widget>[
-              const Icon(
-                Icons.error_outline,
-                color: Colors.red,
-                size: 60,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Error: ${snapshot.error}'),
-              )
-            ];
+              return MailLoadingError(error: snapshot);
           } else {
             return Loader();
           }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
-            ),
-          );
         },
       ),
     );

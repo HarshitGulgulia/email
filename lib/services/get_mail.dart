@@ -1,4 +1,5 @@
 import 'package:email_client/models/Email.dart';
+import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,56 @@ class GetMail{
   int imapServerPort = 993;
   bool isImapServerSecure = true;
 
-  Future<String> getImapEmail() async {
+
+  Future<String> getImapEmailAuthenticate() async {
+    final client = ImapClient(isLogEnabled: true);
+    try {
+      print('yo yo');
+      final token = await GoogleAuthApi.getToken();
+      final email = await GoogleAuthApi.getEmail();
+      print(email);
+      print(token);
+      await client.connectToServer(imapServerHost, imapServerPort, isSecure: isImapServerSecure);
+      await client.authenticateWithOAuth2(email, token);
+      final mailboxes = await client.listMailboxes();
+      print('mailboxes: $mailboxes');
+      await client.selectInbox();
+      // fetch 10 most recent messages:
+      final fetchResult = await client.fetchRecentMessages(
+          messageCount: 30, criteria: 'BODY.PEEK[]');
+      mail_message = fetchResult.messages;
+
+      for (final message in fetchResult.messages) {
+        printMessage(message);
+      }
+      return 'Data Loaded';
+    } on ImapException catch (e) {
+      print('IMAP failed with $e');
+      return 'error';
+    }
+  }
+
+  // Future<String> authenticate(ServerConfig serverConfig,
+  //     {ImapClient? imap, PopClient? pop, SmtpClient? smtp}) async {
+  //   final name = userName!;
+  //   final tkn = token!;
+  //   switch (serverConfig.type) {
+  //     case ServerType.imap:
+  //       await imap!.authenticateWithOAuth2(name, tkn);
+  //       break;
+  //     case ServerType.pop:
+  //       await pop!.login(name, tkn);
+  //       break;
+  //     case ServerType.smtp:
+  //       await smtp!.authenticate(name, tkn, AuthMechanism.xoauth2);
+  //       break;
+  //     default:
+  //       throw StateError('Unknown server type ${serverConfig.typeName}');
+  //   }
+  // }
+
+
+  Future<String> getImapEmailLogin() async {
     final client = ImapClient(isLogEnabled: true);
     try {
       await client.connectToServer(imapServerHost, imapServerPort,
@@ -46,10 +96,9 @@ class GetMail{
     }
   }
 
-
-
   Future<String> getEmail() async {
-    var response = await getImapEmail();
+    // var response = await getImapEmailLogin();
+    var response = await getImapEmailAuthenticate();
     if (response == 'Data Loaded'){
         emails = List.generate(
 

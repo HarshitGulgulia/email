@@ -1,6 +1,6 @@
 import 'package:email_client/screens/loading_screen.dart';
-import 'package:email_client/screens/login_screen.dart';
-import 'package:email_client/screens/login_wrapper.dart';
+import 'package:email_client/screens/login/login_screen.dart';
+import 'package:email_client/screens/login/login_wrapper.dart';
 import 'package:email_client/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/services/get_mail.dart';
@@ -17,25 +17,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: _title,
-      home: MyStatefulWidget(),
+      home: MainApp(),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({key}) : super(key: key);
-
-  @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class MainApp extends StatelessWidget {
+  const MainApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LoginWrapper();
   }
 }
+
 
 // DefaultTextStyle(
 // style: Theme.of(context).textTheme.headline2,
