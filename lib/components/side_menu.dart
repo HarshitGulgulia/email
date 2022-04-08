@@ -1,3 +1,5 @@
+import 'package:email_client/screens/login_screen.dart';
+import 'package:email_client/services/authapi.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
 import 'package:websafe_svg/websafe_svg.dart';
@@ -106,6 +108,16 @@ class SideMenu extends StatelessWidget {
               SizedBox(height: kDefaultPadding * 2),
               // Tags
               Tags(),
+              ElevatedButton(
+                  onPressed: () async{
+                    await GoogleAuthApi.signOut();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
+                  child: Text('Sign Out'),
+              ),
             ],
           ),
         ),
