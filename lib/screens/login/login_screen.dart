@@ -16,9 +16,8 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+///Login Screen ui builder with google sign-in provider
 class _LoginScreenState extends State<LoginScreen> {
-
-
 
   @override
   Widget build(BuildContext context) {

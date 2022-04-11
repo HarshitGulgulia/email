@@ -3,7 +3,6 @@ import 'package:email_client/components/side_menu.dart';
 import 'package:email_client/models/Email.dart';
 import 'package:email_client/responsive.dart';
 import 'package:email_client/screens/email/email_screen.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../constants.dart';
 import 'email_card.dart';
@@ -23,9 +22,8 @@ class ListOfEmails extends StatefulWidget {
   _ListOfEmailsState createState() => _ListOfEmailsState();
 }
 
+///Build List of Email ui using ListBuilder. Takes Email<List> as constructor parameter.
 class _ListOfEmailsState extends State<ListOfEmails> {
-
-
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override

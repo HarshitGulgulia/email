@@ -6,6 +6,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../constants.dart';
 import 'components/header.dart';
 
+///Email Screen ui which contains all the data fetched using IMAP. Takes Email as constructor parameter.
 class EmailScreen extends StatelessWidget {
   const EmailScreen({
     Key key,

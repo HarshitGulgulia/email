@@ -16,7 +16,7 @@ class MainScreen extends StatefulWidget {
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
-
+///Main Screen of email client ui with three components- ListOfEmails, EmailScreen, SideMenu. Takes Email<List> as constructor parameter.
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {

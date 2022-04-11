@@ -8,6 +8,7 @@ import 'package:email_client/screens/error/login_loader_error.dart';
 
 import '../loading_screen.dart';
 
+///Redirects the user on different pages from login page, in accordance to login status
 class LoginWrapper extends StatelessWidget {
   const LoginWrapper({Key key}) : super(key: key);
 
@@ -19,7 +20,6 @@ class LoginWrapper extends StatelessWidget {
       child: FutureBuilder<bool>(
         future: GoogleAuthApi.checkStatus(), // a previously-obtained Future<String> or null
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          List<Widget> children;
           if (snapshot.hasData&&snapshot.data) {
             return MailLoader();
           } else if(snapshot.hasData&&!(snapshot.data)){

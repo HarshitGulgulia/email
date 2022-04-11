@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../extensions.dart';
 
+///Counter Badge stateless widget
 class CounterBadge extends StatelessWidget {
   const CounterBadge({
     Key key,

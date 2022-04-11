@@ -4,6 +4,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../constants.dart';
 
+///Header on Email Screen contains features like delete, reply, print, etc
 class Header extends StatelessWidget {
   const Header({
     Key key,

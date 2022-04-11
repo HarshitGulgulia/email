@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// All of our constant stuff
+/// All of our constant schemes are defined
 
 const kPrimaryColor = Color(0xFF366CF6);
 const kSecondaryColor = Color(0xFFF5F6FC);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///Email data received is stored in this class
 class Email {
   final String image, name, subject, body, time, from_email;
   final bool isAttachmentAvailable, isChecked;

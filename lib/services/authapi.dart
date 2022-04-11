@@ -1,5 +1,6 @@
 import 'package:google_sign_in/google_sign_in.dart';
 
+///Performs operations like Google sign-in, check sign-in status, sign-out and generates refresh token
 class GoogleAuthApi {
 
   static final _googleSignIn=GoogleSignIn(scopes: ['https://mail.google.com/']);
@@ -16,6 +17,7 @@ class GoogleAuthApi {
     return await _googleSignIn.signIn();
   }
 
+  ///User authentication returns status if sign-in is successful or not
   Future<bool> authenticateUser () async{
     final user = await GoogleAuthApi.signIn();
     print(user);
