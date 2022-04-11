@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../services/authapi.dart';
 import '../login/login_screen.dart';
 
+///Stateless widget for showing error while login
 class LoginLoadingError extends StatelessWidget {
   const LoginLoadingError({Key key, this.error}) : super(key: key);
   final AsyncSnapshot<bool> error;

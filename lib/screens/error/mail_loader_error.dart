@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../services/authapi.dart';
 import '../login/login_screen.dart';
 
+///Stateless widget for showing error while loading mail from server
 class MailLoadingError extends StatelessWidget {
   const MailLoadingError({Key key, this.error}) : super(key: key);
   final AsyncSnapshot<String> error;

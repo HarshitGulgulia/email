@@ -11,6 +11,7 @@ import 'tags.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+///Sidebar ui generator
 class SideMenu extends StatelessWidget {
   const SideMenu({
     Key key,

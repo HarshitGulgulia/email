@@ -14,11 +14,8 @@ class MailLoader extends StatefulWidget {
   State<MailLoader> createState() => _MailLoaderState();
 }
 
+///Loads user data when user launches the app
 class _MailLoaderState extends State<MailLoader> {
-
-  // Future<String> dummy() async{
-  //   return 'Data Loaded';
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,6 @@ class _MailLoaderState extends State<MailLoader> {
       child: FutureBuilder<String>(
         future: mails.getEmail(), // a previously-obtained Future<String> or null
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          List<Widget> children;
           if (snapshot.hasData) {
             return MainScreen(mails.emails);
           } else if (snapshot.hasError) {
