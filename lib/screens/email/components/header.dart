@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../constants.dart';
 

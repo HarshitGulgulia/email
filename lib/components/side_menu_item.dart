@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 import '../constants.dart';
 import 'counter_badge.dart';
@@ -29,12 +28,12 @@ class SideMenuItem extends StatelessWidget {
         onTap: press,
         child: Row(
           children: [
-            (isActive || isHover)
-                ? Image.asset(
-                    "assets/Icons/angleright.png",
-                    width: 15,
-                  )
-                : SizedBox(width: 15),
+            // (isActive || isHover)
+            //     ? Image.asset(
+            //         "assets/Icons/angleright.png",
+            //         width: 15,
+            //       )
+            //     : SizedBox(width: 15),
             SizedBox(width: kDefaultPadding / 4),
             Expanded(
               child: Container(

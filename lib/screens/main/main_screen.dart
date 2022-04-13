@@ -1,3 +1,4 @@
+import 'package:email_client/constants.dart';
 import 'package:email_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/components/side_menu.dart';
@@ -22,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     // It provide us the width and height
     Size _size = MediaQuery.of(context).size;
-    print(widget.emails[1].time);
+    //print(widget.emails[1].time);
     return Scaffold(
       body: Responsive(
         // Let's work on our mobile part
@@ -70,6 +71,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           );
         },
+        backgroundColor: kPrimaryColor,
       ),
     );
   }

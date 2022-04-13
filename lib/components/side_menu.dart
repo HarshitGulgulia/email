@@ -2,12 +2,10 @@ import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/services/authapi.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 import '../constants.dart';
 import '../extensions.dart';
 import 'side_menu_item.dart';
-import 'tags.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -41,42 +39,26 @@ class SideMenu extends StatelessWidget {
                 ],
               ),
               SizedBox(height: kDefaultPadding),
-              FlatButton.icon(
-                minWidth: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  vertical: kDefaultPadding,
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  primary: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    vertical: kDefaultPadding,
+                  ),
+                  minimumSize: Size(double.infinity, 40),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: kPrimaryColor,
                 onPressed: () {},
                 icon: Image.asset("assets/Icons/edit.png", width: 16),
                 label: Text(
                   "Compose",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 16,
+                      color: Colors.white),
                 ),
-              ).addNeumorphism(
-                topShadowColor: Colors.white,
-                bottomShadowColor: Color(0xFF234395).withOpacity(0.2),
               ),
-              // SizedBox(height: kDefaultPadding),
-              // FlatButton.icon(
-              //   minWidth: double.infinity,
-              //   padding: EdgeInsets.symmetric(
-              //     vertical: kDefaultPadding,
-              //   ),
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(10),
-              //   ),
-              //   color: kBgDarkColor,
-              //   onPressed: () {},
-              //   icon: Image.asset("assets/Icons/download.png", width: 16),
-              //   label: Text(
-              //     "Get messages",
-              //     style: TextStyle(color: kTextColor),
-              //   ),
-              // ).addNeumorphism(),
               SizedBox(height: kDefaultPadding * 2),
               // Menu Items
               SideMenuItem(
@@ -84,7 +66,7 @@ class SideMenu extends StatelessWidget {
                 title: "Inbox",
                 iconSrc: "assets/Icons/inbox.png",
                 isActive: true,
-                itemCount: 3,
+                //itemCount: 3,
               ),
               SideMenuItem(
                 press: () {},
@@ -107,8 +89,6 @@ class SideMenu extends StatelessWidget {
               ),
 
               SizedBox(height: kDefaultPadding * 2),
-              // Tags
-              Tags(),
               ElevatedButton(
                   onPressed: () async{
                     await GoogleAuthApi.signOut();
@@ -118,6 +98,9 @@ class SideMenu extends StatelessWidget {
                     );
                   },
                   child: Text('Sign Out'),
+                style: ElevatedButton.styleFrom(
+                  primary: kPrimaryColor,
+                ),
               ),
             ],
           ),
