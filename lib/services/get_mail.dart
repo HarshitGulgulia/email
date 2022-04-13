@@ -3,6 +3,8 @@ import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/login/login_wrapper.dart';
+
 
 class GetMail{
 
@@ -19,8 +21,20 @@ class GetMail{
   Future<String> getImapEmailAuthenticate() async {
     final client = ImapClient(isLogEnabled: true);
     try {
-      print('yo yo');
-      final token = await GoogleAuthApi.getToken();
+      String token;
+      if(await GoogleAuthApi.checkStatus()){
+        final bool tokenStatus = await GoogleAuthApi.generateRefreshToken();
+        if(tokenStatus) {
+          token = GoogleAuthApi.REFRESH_TOKEN;
+        }
+        else{
+          await GoogleAuthApi.signOut();
+          return 'Refresh Failed';
+        }
+      }
+      else{
+        token = await GoogleAuthApi.getToken();
+      }
       final email = await GoogleAuthApi.getEmail();
       print(email);
       print(token);
@@ -89,7 +103,7 @@ class GetMail{
       //   print(message.flags);
       // }
       await client.logout();
-      return 'Data Loaded';
+      return 'Data Loaded';  //create a separate file for global keys and variables
     } on ImapException catch (e) {
       print('IMAP failed with $e');
       return 'error';

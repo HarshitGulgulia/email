@@ -1,5 +1,6 @@
 import 'package:email_client/screens/error/mail_loader_error.dart';
 import 'package:email_client/screens/loading_screen.dart';
+import 'package:email_client/screens/login/login_wrapper.dart';
 import 'package:email_client/screens/main/main_screen.dart';
 import 'package:email_client/services/get_mail.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class _MailLoaderState extends State<MailLoader> {
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
             return MainScreen(mails.emails);
+          } else if(snapshot.hasData&&snapshot.data=='Refresh Failed'){
+            return LoginWrapper();
           } else if (snapshot.hasError) {
               return MailLoadingError(error: snapshot);
           } else {
