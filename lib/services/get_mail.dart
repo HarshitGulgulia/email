@@ -11,8 +11,7 @@ class GetMail{
   List<Email> emails;
   List<MimeMessage> mail_message;
 
-  String userName = '1mv20is021@sirmvit.edu';
-  String password = 'Hg@sirmvit';
+
   String imapServerHost = 'imap.gmail.com';
   int imapServerPort = 993;
   bool isImapServerSecure = true;
@@ -78,7 +77,9 @@ class GetMail{
   // }
 
 
-  Future<String> getImapEmailLogin() async {
+
+  //Function without OAuth Mechanism
+  /*Future<String> getImapEmailLogin() async {
     final client = ImapClient(isLogEnabled: true);
     try {
       await client.connectToServer(imapServerHost, imapServerPort,
@@ -108,7 +109,7 @@ class GetMail{
       print('IMAP failed with $e');
       return 'error';
     }
-  }
+  }*/
 
   Future<String> getEmail() async {
     // var response = await getImapEmailLogin();
