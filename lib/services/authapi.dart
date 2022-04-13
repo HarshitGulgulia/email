@@ -1,4 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 ///Performs operations like Google sign-in, check sign-in status, sign-out and generates refresh token
 class GoogleAuthApi {
@@ -6,6 +7,8 @@ class GoogleAuthApi {
   static final _googleSignIn=GoogleSignIn(scopes: ['https://mail.google.com/']);
 
   static GoogleSignInAccount USER=_googleSignIn.currentUser;
+
+  static String REFRESH_TOKEN;
 
   static Future<GoogleSignInAccount> signIn() async{
     if(await _googleSignIn.isSignedIn()){
@@ -15,6 +18,19 @@ class GoogleAuthApi {
     }
     print(_googleSignIn);
     return await _googleSignIn.signIn();
+  }
+
+  static Future<bool> generateRefreshToken() async {
+    print("Token Refresh");
+    final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signInSilently();
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    REFRESH_TOKEN=googleSignInAuthentication.accessToken;
+    if(REFRESH_TOKEN!=null) {
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   ///User authentication returns status if sign-in is successful or not
@@ -33,6 +49,8 @@ class GoogleAuthApi {
     print(token);
     return await GoogleAuthApi.checkStatus();
   }
+
+  static String getRefreshToken() => REFRESH_TOKEN;
 
   static Future<String> getToken() async => (await USER.authentication).accessToken;
 

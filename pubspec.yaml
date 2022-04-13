@@ -36,6 +36,8 @@ dependencies:
   enough_mail: ^0.3.1
   google_sign_in: ^5.2.4
   provider: ^6.0.2
+  flutter_signin_button: ^2.0.0
+#  firebase_auth: ^0.16.1
 
 dev_dependencies:
   flutter_test:
