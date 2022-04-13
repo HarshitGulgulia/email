@@ -5,6 +5,7 @@ import 'package:websafe_svg/websafe_svg.dart';
 import '../../../constants.dart';
 import '../../../extensions.dart';
 
+///Single Email field ui builder. Takes Email as constructor parameter.
 class EmailCard extends StatelessWidget {
   const EmailCard({
     Key key,

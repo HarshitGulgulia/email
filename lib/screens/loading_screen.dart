@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///Loading Screen stateless widget
 class Loader extends StatelessWidget {
   const Loader({Key key}) : super(key: key);
 
