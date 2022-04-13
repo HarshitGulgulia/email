@@ -2,12 +2,10 @@ import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/services/authapi.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 import '../constants.dart';
 import '../extensions.dart';
 import 'side_menu_item.dart';
-import 'tags.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -107,8 +105,6 @@ class SideMenu extends StatelessWidget {
               ),
 
               SizedBox(height: kDefaultPadding * 2),
-              // Tags
-              Tags(),
               ElevatedButton(
                   onPressed: () async{
                     await GoogleAuthApi.signOut();
