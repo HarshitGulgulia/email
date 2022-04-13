@@ -28,12 +28,12 @@ class SideMenuItem extends StatelessWidget {
         onTap: press,
         child: Row(
           children: [
-            (isActive || isHover)
-                ? Image.asset(
-                    "assets/Icons/angleright.png",
-                    width: 15,
-                  )
-                : SizedBox(width: 15),
+            // (isActive || isHover)
+            //     ? Image.asset(
+            //         "assets/Icons/angleright.png",
+            //         width: 15,
+            //       )
+            //     : SizedBox(width: 15),
             SizedBox(width: kDefaultPadding / 4),
             Expanded(
               child: Container(
