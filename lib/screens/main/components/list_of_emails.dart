@@ -88,34 +88,34 @@ class _ListOfEmailsState extends State<ListOfEmails> {
                   ],
                 ),
               ),
-              SizedBox(height: kDefaultPadding),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      "assets/Icons/angledown.png",
-                      width: 16,
-                      color: Colors.black,
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      "Sort by date",
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    Spacer(),
-                    MaterialButton(
-                      minWidth: 20,
-                      onPressed: () {},
-                      child: Image.asset(
-                        "assets/Icons/sort.png",
-                        width: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // SizedBox(height: kDefaultPadding),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              //   child: Row(
+              //     children: [
+              //       Image.asset(
+              //         "assets/Icons/angledown.png",
+              //         width: 16,
+              //         color: Colors.black,
+              //       ),
+              //       SizedBox(width: 5),
+              //       Text(
+              //         "Sort by date",
+              //         style: TextStyle(fontWeight: FontWeight.w500),
+              //       ),
+              //       Spacer(),
+              //       MaterialButton(
+              //         minWidth: 20,
+              //         onPressed: () {},
+              //         child: Image.asset(
+              //           "assets/Icons/sort.png",
+              //           width: 16,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(height: kDefaultPadding),
               Expanded(
                 child: ListView.builder(

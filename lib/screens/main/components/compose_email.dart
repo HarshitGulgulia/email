@@ -28,7 +28,7 @@ class _ComposeState extends State<Compose> {
   final _subjectController = TextEditingController(text: '');
 
   final _bodyController = TextEditingController(
-    text: 'Mail body.',
+    text: 'Enter Body',
   );
 
   Future<void> send() async {
