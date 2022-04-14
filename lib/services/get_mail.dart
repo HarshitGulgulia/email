@@ -120,11 +120,11 @@ class GetMail{
               (index) =>
               Email(
                 name: mail_message[index].decodeSender().single.personalName,
-                image: "assets/images/user_1.png",
+                image: "assets/images/avatar.png",
                 subject: mail_message[index].decodeSubject(),
                 isAttachmentAvailable: mail_message[index].hasAttachments(),
                 isChecked: !(mail_message[index].isFlagged),
-                tagColor: Colors.red,
+                tagColor: null,
                 time: mail_message[index].decodeDate().toString().substring(0,10),
                 body: (!mail_message[index].isTextPlainMessage())
                     ? ' content-type: ${mail_message[index].mediaType}'
