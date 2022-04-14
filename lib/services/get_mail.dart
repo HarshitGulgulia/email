@@ -3,8 +3,6 @@ import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/login/login_wrapper.dart';
-
 
 class GetMail{
 
@@ -34,7 +32,7 @@ class GetMail{
       else{
         token = await GoogleAuthApi.getToken();
       }
-      final email = await GoogleAuthApi.getEmail();
+      final email = GoogleAuthApi.getEmail();
       print(email);
       print(token);
       await client.connectToServer(imapServerHost, imapServerPort, isSecure: isImapServerSecure);
