@@ -5,6 +5,7 @@ import 'package:email_client/components/side_menu.dart';
 import 'package:email_client/responsive.dart';
 import 'package:email_client/models/Email.dart';
 import 'package:email_client/screens/email/email_screen.dart';
+import 'components/compose_email.dart';
 import 'components/list_of_emails.dart';
 
 // ignore: must_be_immutable
@@ -62,12 +63,12 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.refresh),
+        child: Icon(Icons.create_sharp),
         onPressed: () {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MyApp(),
+              builder: (context) => Compose(),
             ),
           );
         },
