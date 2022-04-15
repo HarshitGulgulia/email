@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   child: SignInButton(
                     Buttons.Google,
-                    text: "Sign up with Google",
+                    text: "Sign in with Google",
                     onPressed: () async {
                       bool user = await googleApi.authenticateUser();
                       if(user) {

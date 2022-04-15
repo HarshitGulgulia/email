@@ -3,8 +3,6 @@ import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/login/login_wrapper.dart';
-
 
 class GetMail{
 
@@ -34,7 +32,7 @@ class GetMail{
       else{
         token = await GoogleAuthApi.getToken();
       }
-      final email = await GoogleAuthApi.getEmail();
+      final email = GoogleAuthApi.getEmail();
       print(email);
       print(token);
       await client.connectToServer(imapServerHost, imapServerPort, isSecure: isImapServerSecure);
@@ -122,11 +120,11 @@ class GetMail{
               (index) =>
               Email(
                 name: mail_message[index].decodeSender().single.personalName,
-                image: "assets/images/user_1.png",
+                image: "assets/images/avatar.png",
                 subject: mail_message[index].decodeSubject(),
                 isAttachmentAvailable: mail_message[index].hasAttachments(),
                 isChecked: !(mail_message[index].isFlagged),
-                tagColor: Colors.red,
+                tagColor: null,
                 time: mail_message[index].decodeDate().toString().substring(0,10),
                 body: (!mail_message[index].isTextPlainMessage())
                     ? ' content-type: ${mail_message[index].mediaType}'

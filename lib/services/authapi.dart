@@ -1,5 +1,4 @@
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 
 ///Performs operations like Google sign-in, check sign-in status, sign-out and generates refresh token
 class GoogleAuthApi {
@@ -54,7 +53,11 @@ class GoogleAuthApi {
 
   static Future<String> getToken() async => (await USER.authentication).accessToken;
 
-  static Future<String> getEmail() async => await USER.email;
+  static String getEmail()=> USER.email;
+
+  static String getUsername() => USER.displayName;
+
+  static String getPhotoUrl()=> USER.photoUrl;
 
   static Future<bool> checkStatus() async => await _googleSignIn.isSignedIn();
 

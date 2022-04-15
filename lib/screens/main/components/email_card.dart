@@ -38,7 +38,7 @@ class EmailCard extends StatelessWidget {
                   Row(
                     children: [
                       SizedBox(
-                        width: 32,
+                        width: 40,
                         child: CircleAvatar(
                           backgroundColor: Colors.transparent,
                           backgroundImage: AssetImage(email.image),
