@@ -3,39 +3,34 @@ import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
-
-class GetMail{
-
+class GetMail {
   List<Email> emails;
   List<MimeMessage> mail_message;
-
 
   String imapServerHost = 'imap.gmail.com';
   int imapServerPort = 993;
   bool isImapServerSecure = true;
 
-
   Future<String> getImapEmailAuthenticate() async {
     final client = ImapClient(isLogEnabled: true);
     try {
       String token;
-      if(await GoogleAuthApi.checkStatus()){
+      if (await GoogleAuthApi.checkStatus()) {
         final bool tokenStatus = await GoogleAuthApi.generateRefreshToken();
-        if(tokenStatus) {
+        if (tokenStatus) {
           token = GoogleAuthApi.REFRESH_TOKEN;
-        }
-        else{
+        } else {
           await GoogleAuthApi.signOut();
           return 'Refresh Failed';
         }
-      }
-      else{
+      } else {
         token = await GoogleAuthApi.getToken();
       }
       final email = GoogleAuthApi.getEmail();
       print(email);
       print(token);
-      await client.connectToServer(imapServerHost, imapServerPort, isSecure: isImapServerSecure);
+      await client.connectToServer(imapServerHost, imapServerPort,
+          isSecure: isImapServerSecure);
       await client.authenticateWithOAuth2(email, token);
       final mailboxes = await client.listMailboxes();
       print('mailboxes: $mailboxes');
@@ -74,8 +69,6 @@ class GetMail{
   //   }
   // }
 
-
-
   //Function without OAuth Mechanism
   /*Future<String> getImapEmailLogin() async {
     final client = ImapClient(isLogEnabled: true);
@@ -110,29 +103,33 @@ class GetMail{
   }*/
 
   Future<String> getEmail() async {
-    // var response = await getImapEmailLogin();
+    const i_c = '"';
+    const a = '@';
     var response = await getImapEmailAuthenticate();
-    if (response == 'Data Loaded'){
-        emails = List.generate(
-
-          mail_message.length,
-
-              (index) =>
-              Email(
-                name: mail_message[index].decodeSender().single.personalName,
-                image: "assets/images/avatar.png",
-                subject: mail_message[index].decodeSubject(),
-                isAttachmentAvailable: mail_message[index].hasAttachments(),
-                isChecked: !(mail_message[index].isFlagged),
-                tagColor: null,
-                time: mail_message[index].decodeDate().toString().substring(0,10),
-                body: (!mail_message[index].isTextPlainMessage())
-                    ? ' content-type: ${mail_message[index].mediaType}'
-                    : mail_message[index].decodeTextPlainPart(),
-                from_email: mail_message[index].fromEmail,
-              ),
-        );
-      }
+    if (response == 'Data Loaded') {
+      emails = List.generate(
+        mail_message.length,
+        (index) => Email(
+          name: mail_message[index].decodeSender().single.personalName == null
+              ? mail_message[index].from.toString()[1] != '"'
+                  ? mail_message[index].from.toString().substring(
+                      1, mail_message[index].from.toString().indexOf(a))
+                  : mail_message[index].from.toString().substring(
+                      2, mail_message[index].from.toString().lastIndexOf(i_c))
+              : mail_message[index].decodeSender().single.personalName,
+          image: "assets/images/avatar.png",
+          subject: mail_message[index].decodeSubject(),
+          isAttachmentAvailable: mail_message[index].hasAttachments(),
+          isChecked: !(mail_message[index].isFlagged),
+          tagColor: null,
+          time: mail_message[index].decodeDate().toString().substring(0, 10),
+          body: (!mail_message[index].isTextPlainMessage())
+              ? ' content-type: ${mail_message[index].mediaType}'
+              : mail_message[index].decodeTextPlainPart(),
+          from_email: mail_message[index].fromEmail,
+        ),
+      );
+    }
     return response;
   }
 
@@ -154,5 +151,4 @@ class GetMail{
       }
     }
   }
-
 }
