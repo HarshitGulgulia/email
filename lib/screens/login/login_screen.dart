@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if(user) {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => MailLoader()),
+                          MaterialPageRoute(builder: (context) => MailLoader(user_signed_in: false)),
                         );
                       }
                     },
