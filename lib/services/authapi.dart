@@ -1,5 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../models/user.dart';
+
 ///Performs operations like Google sign-in, check sign-in status, sign-out and generates refresh token
 class GoogleAuthApi {
 
@@ -57,7 +59,9 @@ class GoogleAuthApi {
 
   static String getUsername() => USER.displayName;
 
-  static String getPhotoUrl()=> USER.photoUrl;
+  static String getPhotoUrl() => USER.photoUrl;
+
+  static User getUser(String token) => User(email:USER.email,name: USER.displayName,token: token,image: USER.photoUrl);
 
   static Future<bool> checkStatus() async => await _googleSignIn.isSignedIn();
 
