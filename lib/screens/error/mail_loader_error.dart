@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../Database/database_emails_helper.dart';
 import '../../services/authapi.dart';
 import '../login/login_screen.dart';
 
@@ -30,6 +31,7 @@ class MailLoadingError extends StatelessWidget {
             ElevatedButton(
               onPressed: () async{
                 await GoogleAuthApi.signOut();
+                // await DatabaseEmailsHelper.instance.deleteDatabase();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),

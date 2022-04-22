@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:email_client/models/Email.dart';
 import '../../constants.dart';
 import 'components/header.dart';
+import 'components/web_view.dart';
 
 ///Email Screen UI which contains all the data fetched using IMAP. Takes Email as constructor parameter.
 class EmailScreen extends StatefulWidget {
@@ -36,27 +37,17 @@ class _EmailScreenState extends State<EmailScreen> {
                     children: [
                       EmailScreenDetails(email: widget.email),
                       SizedBox(height: kDefaultPadding),
-                      LayoutBuilder(
-                        builder: (context, constraints) => SizedBox(
-                          width: constraints.maxWidth > 850
-                              ? 800
-                              : constraints.maxWidth,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.email.body,
-                                style: TextStyle(
-                                  height: 1.5,
-                                  color: Color(0xFF4D5875),
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                              SizedBox(height: kDefaultPadding),
-                            ],
+                      SizedBox(
+                        child: Text(
+                          widget.email.body,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color(0xFF4D5875),
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
+                      WebViewScreen(email: widget.email),
                     ],
                   ),
                 ),

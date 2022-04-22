@@ -19,6 +19,7 @@ class DatabaseEmailsHelper{
   static const columnIsAttachmentAvailable='IsAttachmentAvailable';
   static const columnTagColor='TagColor';
   static const columnFromEmail='FromEmail';
+  static const columnHtml='Html';
 
 
   //make it a singleton class
@@ -57,7 +58,8 @@ class DatabaseEmailsHelper{
       $columnBody TEXT,
       $columnIsAttachmentAvailable BOOL,
       $columnTagColor TEXT,
-      $columnFromEmail TEXT
+      $columnFromEmail TEXT,
+      $columnHtml TEXT
        )
       '''
     );
@@ -78,5 +80,12 @@ class DatabaseEmailsHelper{
     Database db = await instance.database;
     return await db?.delete(_tableName);  //,where: '$columnId=?',whereArgs: [id]
   }
+
+  Future<void> deleteDatabase() async{
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = join(directory.path,_dbName);
+    databaseFactory.deleteDatabase(path);
+  }
+
 
 }

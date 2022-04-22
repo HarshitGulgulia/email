@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 ///Email data received is stored in this class
 class Email {
-  final String image, name, subject, body, time, from_email;
+  final String image, name, subject, body, time, from_email, html;
   final bool isAttachmentAvailable, isChecked;
   final Color tagColor;
 
@@ -16,7 +16,8 @@ class Email {
     this.body,
     this.isAttachmentAvailable,
     this.tagColor,
-    this.from_email
+    this.from_email,
+    this.html
   });
 
   Map<String, dynamic> toJson() =>
@@ -30,6 +31,7 @@ class Email {
         DatabaseEmailsHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
         DatabaseEmailsHelper.columnTagColor: tagColor.toString(),
         DatabaseEmailsHelper.columnFromEmail: from_email,
+        DatabaseEmailsHelper.columnHtml: html,
       };
 
 

@@ -40,6 +40,7 @@ dependencies:
   mailer: ^5.1.0
   args: ^2.3.0
   logging: ^1.0.2
+  webview_flutter_plus: ^0.3.0+2
 
 
 dev_dependencies:

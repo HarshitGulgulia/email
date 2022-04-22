@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:email_client/Database/database_user_helper.dart';
 import 'package:email_client/constants.dart';
@@ -26,17 +25,17 @@ class GetMail {
         final bool tokenStatus = await GoogleAuthApi.generateRefreshToken();
         if (tokenStatus) {
           token = GoogleAuthApi.REFRESH_TOKEN;
-          TOKEN =token;
+          TOKEN = token;
         } else {
           await GoogleAuthApi.signOut();
           return 'Refresh Failed';
         }
       } else {
         token = await GoogleAuthApi.getToken();
-        TOKEN =token;
+        TOKEN = token;
       }
       final email = GoogleAuthApi.getEmail();
-      TOKEN =token;
+      TOKEN = token;
       await client.connectToServer(imapServerHost, imapServerPort,
           isSecure: isImapServerSecure);
       await client.authenticateWithOAuth2(email, token);
@@ -65,13 +64,13 @@ class GetMail {
     if (response == DATALOADED) {
       emails = List.generate(
         mail_message.length,
-            (index) => Email(
+        (index) => Email(
           name: mail_message[index].decodeSender().single.personalName == null
               ? mail_message[index].from.toString()[1] != '"'
-              ? mail_message[index].from.toString().substring(
-              1, mail_message[index].from.toString().indexOf(a))
-              : mail_message[index].from.toString().substring(
-              2, mail_message[index].from.toString().lastIndexOf(i_c))
+                  ? mail_message[index].from.toString().substring(
+                      1, mail_message[index].from.toString().indexOf(a))
+                  : mail_message[index].from.toString().substring(
+                      2, mail_message[index].from.toString().lastIndexOf(i_c))
               : mail_message[index].decodeSender().single.personalName,
           image: "assets/images/avatar.png",
           subject: mail_message[index].decodeSubject(),
@@ -79,10 +78,11 @@ class GetMail {
           isChecked: !(mail_message[index].isFlagged),
           tagColor: null,
           time: mail_message[index].decodeDate().toString().substring(0, 10),
-          body: (!mail_message[index].isTextPlainMessage())
-              ? ' content-type: ${mail_message[index].mediaType}'
-              : mail_message[index].decodeTextPlainPart(),
+          body: mail_message[index].decodeTextHtmlPart() == null
+              ? mail_message[index].decodeTextPlainPart()
+              : ' ',
           from_email: mail_message[index].fromEmail,
+          html: mail_message[index].decodeTextHtmlPart(),
         ),
       );
       for (var mail in emails) {
@@ -102,23 +102,30 @@ class GetMail {
   }
 
   Future<String> getEmailDatabase() async {
-    List<Map<String, dynamic>> rows = await DatabaseEmailsHelper.instance.queryAll();
+    List<Map<String, dynamic>> rows =
+        await DatabaseEmailsHelper.instance.queryAll();
     emails = List.generate(
       rows.length,
-          (index) => Email(
+      (index) => Email(
         name: rows[index][DatabaseEmailsHelper.columnName],
         image: rows[index][DatabaseEmailsHelper.columnImage],
         subject: rows[index][DatabaseEmailsHelper.columnSubject],
-        isAttachmentAvailable: (rows[index][DatabaseEmailsHelper.columnIsAttachmentAvailable]==1)?true:false,
-        isChecked: (rows[index][DatabaseEmailsHelper.columnIsChecked]==1)?true:false,
+        isAttachmentAvailable: (rows[index][DatabaseEmailsHelper.columnIsAttachmentAvailable] == 1) ? true : false,
+        isChecked: (rows[index][DatabaseEmailsHelper.columnIsChecked] == 1) ? true : false,
         tagColor: null,
         time: rows[index][DatabaseEmailsHelper.columnTime],
         body: rows[index][DatabaseEmailsHelper.columnBody],
+        html: rows[index][DatabaseEmailsHelper.columnHtml],
       ),
     );
-    List<Map<String, dynamic>> users =  await DatabaseUserHelper.instance.queryAllUser();
+    List<Map<String, dynamic>> users =
+        await DatabaseUserHelper.instance.queryAllUser();
     print('users: $users');
-    USERDETAILS = User(email: users[0][DatabaseUserHelper.columnEmail],name: users[0][DatabaseUserHelper.columnName],token: users[0][DatabaseUserHelper.columnToken],image: users[0][DatabaseUserHelper.columnImage]);
+    USERDETAILS = User(
+        email: users[0][DatabaseUserHelper.columnEmail],
+        name: users[0][DatabaseUserHelper.columnName],
+        token: users[0][DatabaseUserHelper.columnToken],
+        image: users[0][DatabaseUserHelper.columnImage]);
     print(USERDETAILS);
     return DATALOADED;
   }
