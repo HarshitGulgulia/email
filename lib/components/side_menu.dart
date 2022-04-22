@@ -1,7 +1,9 @@
-import 'package:email_client/Database/database_helper.dart';
+import 'package:email_client/Database/database_emails_helper.dart';
+import 'package:email_client/Database/database_user_helper.dart';
 import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/screens/main/components/compose_email.dart';
 import 'package:email_client/services/authapi.dart';
+import 'package:email_client/services/get_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
 
@@ -38,7 +40,7 @@ class SideMenu extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(kDefaultPadding-5,10,10,0),
                           child: CircleAvatar(
                             radius: 30.0,
-                            backgroundImage: NetworkImage(GoogleAuthApi.getPhotoUrl()),
+                            backgroundImage: NetworkImage(GetMail.USERDETAILS.image),
                           ),
                         ),
                       ),
@@ -51,7 +53,7 @@ class SideMenu extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Text(
-                                GoogleAuthApi.getUsername(),
+                                GetMail.USERDETAILS.name,
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
@@ -60,7 +62,7 @@ class SideMenu extends StatelessWidget {
                             ),
                             SizedBox(height: kDefaultPadding-15,),
                             Text(
-                              GoogleAuthApi.getEmail(),
+                              GetMail.USERDETAILS.email,
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
@@ -83,35 +85,6 @@ class SideMenu extends StatelessWidget {
                 // padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 child: Column(
                   children: [
-
-                    // SizedBox(height: kDefaultPadding-10),
-                    // ElevatedButton.icon(
-                    //   style: ElevatedButton.styleFrom(
-                    //     primary: kPrimaryColor,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //     padding: EdgeInsets.symmetric(
-                    //       vertical: kDefaultPadding,
-                    //     ),
-                    //     minimumSize: Size(double.infinity, 40),
-                    //   ),
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => Compose(),
-                    //       ),
-                    //     );
-                    //   },
-                    //   icon: Image.asset("assets/Icons/edit.png", width: 16),
-                    //   label: Text(
-                    //     "Compose",
-                    //     style: TextStyle(
-                    //       fontSize: 16,
-                    //         color: Colors.white),
-                    //   ),
-                    // ),
                     // Menu Items
                     Padding(
                       padding: const EdgeInsets.fromLTRB(kDefaultPadding-5, 0, kDefaultPadding-5, 0),
@@ -181,7 +154,8 @@ class SideMenu extends StatelessWidget {
                     icon: Icon(Icons.logout,color: Colors.redAccent[700],size: 30,),
                     onPressed: () async{
                       await GoogleAuthApi.signOut();
-                      await DatabaseHelper.instance.delete();
+                      await DatabaseUserHelper.instance.delete();
+                      await DatabaseEmailsHelper.instance.delete();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => LoginScreen()),
