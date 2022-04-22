@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:email_client/constants.dart';
 import 'package:email_client/models/Email.dart';
 import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
-
+import 'package:flutter/material.dart';
 import '../Database/database_helper.dart';
 
 class GetMail {
@@ -47,6 +46,50 @@ class GetMail {
       for (final message in fetchResult.messages) {
         printMessage(message);
       }
+      return 'Data Loaded';
+    } on ImapException catch (e) {
+      print('IMAP failed with $e');
+      return 'error';
+    }
+  }
+
+  // Future<String> authenticate(ServerConfig serverConfig,
+  //     {ImapClient? imap, PopClient? pop, SmtpClient? smtp}) async {
+  //   final name = userName!;
+  //   final tkn = token!;
+  //   switch (serverConfig.type) {
+  //     case ServerType.imap:
+  //       await imap!.authenticateWithOAuth2(name, tkn);
+  //       break;
+  //     case ServerType.pop:
+  //       await pop!.login(name, tkn);
+  //       break;
+  //     case ServerType.smtp:
+  //       await smtp!.authenticate(name, tkn, AuthMechanism.xoauth2);
+  //       break;
+  //     default:
+  //       throw StateError('Unknown server type ${serverConfig.typeName}');
+  //   }
+  // }
+
+  //Function without OAuth Mechanism
+  /*Future<String> getImapEmailLogin() async {
+    final client = ImapClient(isLogEnabled: true);
+    try {
+      await client.connectToServer(imapServerHost, imapServerPort,
+          isSecure: isImapServerSecure);
+      await client.authenticateWithOAuth2(email, token);
+      final mailboxes = await client.listMailboxes();
+      print('mailboxes: $mailboxes');
+      await client.selectInbox();
+      // fetch 10 most recent messages:
+      final fetchResult = await client.fetchRecentMessages(
+          messageCount: 30, criteria: 'BODY.PEEK[]');
+      mail_message = fetchResult.messages;
+
+      for (final message in fetchResult.messages) {
+        printMessage(message);
+      }
       return DATALOADED;
     } on ImapException catch (e) {
       print('IMAP failed with $e');
@@ -54,6 +97,11 @@ class GetMail {
     }
   }
 
+  Future<String> getEmail() async {
+    const i_c = '"';
+    const a = '@';
+    var response = await getImapEmailAuthenticate();
+    if (response == 'Data Loaded') {
   Future<String> getEmailAPI() async {
     const i_c = '"';
     const a = '@';
@@ -64,10 +112,10 @@ class GetMail {
         (index) => Email(
           name: mail_message[index].decodeSender().single.personalName == null
               ? mail_message[index].from.toString()[1] != '"'
-              ? mail_message[index].from.toString().substring(
-              1, mail_message[index].from.toString().indexOf(a))
-              : mail_message[index].from.toString().substring(
-              2, mail_message[index].from.toString().lastIndexOf(i_c))
+                  ? mail_message[index].from.toString().substring(
+                      1, mail_message[index].from.toString().indexOf(a))
+                  : mail_message[index].from.toString().substring(
+                      2, mail_message[index].from.toString().lastIndexOf(i_c))
               : mail_message[index].decodeSender().single.personalName,
           image: "assets/images/avatar.png",
           subject: mail_message[index].decodeSubject(),
