@@ -12,3 +12,6 @@ const kTitleTextColor = Color(0xFF30384D);
 const kTextColor = Color(0xFF4D5875);
 
 const kDefaultPadding = 20.0;
+
+const DATALOADED = 'Data Loaded';
+const DATALOADINGERROR = 'error';

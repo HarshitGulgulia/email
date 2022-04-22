@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'package:email_client/constants.dart';
 import 'package:email_client/models/Email.dart';
 import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
+import '../Database/database_helper.dart';
 
 class GetMail {
   List<Email> emails;
@@ -75,7 +78,7 @@ class GetMail {
     try {
       await client.connectToServer(imapServerHost, imapServerPort,
           isSecure: isImapServerSecure);
-      await client.login(userName, password);
+      await client.authenticateWithOAuth2(email, token);
       final mailboxes = await client.listMailboxes();
       print('mailboxes: $mailboxes');
       await client.selectInbox();
@@ -87,26 +90,23 @@ class GetMail {
       for (final message in fetchResult.messages) {
         printMessage(message);
       }
-
-      // for (final message in fetchResult.messages){
-      //   print(message.decodeSender().single.personalName);
-      //   print(" => flag: "+message.isFlagged.toString());
-      //   print("Flags are: ");
-      //   print(message.flags);
-      // }
-      await client.logout();
-      return 'Data Loaded';  //create a separate file for global keys and variables
+      return DATALOADED;
     } on ImapException catch (e) {
       print('IMAP failed with $e');
-      return 'error';
+      return DATALOADINGERROR;
     }
-  }*/
+  }
 
   Future<String> getEmail() async {
     const i_c = '"';
     const a = '@';
     var response = await getImapEmailAuthenticate();
     if (response == 'Data Loaded') {
+  Future<String> getEmailAPI() async {
+    const i_c = '"';
+    const a = '@';
+    var response = await getImapEmailAuthenticate();
+    if (response == DATALOADED) {
       emails = List.generate(
         mail_message.length,
         (index) => Email(
@@ -129,8 +129,32 @@ class GetMail {
           from_email: mail_message[index].fromEmail,
         ),
       );
+      for (var mail in emails) {
+        Map<String, dynamic> json = mail.toJson();
+        int i = await DatabaseHelper.instance.insert(json);
+        print(i);
+      }
     }
     return response;
+  }
+
+  Future<String> getEmailDatabase() async {
+    await GoogleAuthApi.generateRefreshToken();
+    List<Map<String, dynamic>> rows = await DatabaseHelper.instance.queryAll();
+    emails = List.generate(
+      rows.length,
+      (index) => Email(
+        name: rows[index][DatabaseHelper.columnName],
+        image: rows[index][DatabaseHelper.columnImage],
+        subject: rows[index][DatabaseHelper.columnSubject],
+        isAttachmentAvailable: (rows[index][DatabaseHelper.columnIsAttachmentAvailable]==1)?true:false,
+        isChecked: (rows[index][DatabaseHelper.columnIsChecked]==1)?true:false,
+        tagColor: null,
+        time: rows[index][DatabaseHelper.columnTime],
+        body: rows[index][DatabaseHelper.columnBody],
+      ),
+    );
+    return DATALOADED;
   }
 
   void printMessage(MimeMessage message) {

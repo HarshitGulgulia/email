@@ -9,8 +9,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 GetMail mails= GetMail();
 
 class MailLoader extends StatefulWidget {
-  const MailLoader({Key key, this.user}) : super(key: key);
+  const MailLoader({Key key, this.user, this.user_signed_in}) : super(key: key);
   final GoogleSignInAccount user;
+  final bool user_signed_in;
   @override
   State<MailLoader> createState() => _MailLoaderState();
 }
@@ -24,7 +25,7 @@ class _MailLoaderState extends State<MailLoader> {
       style: Theme.of(context).textTheme.headline2,
       textAlign: TextAlign.center,
       child: FutureBuilder<String>(
-        future: mails.getEmail(), // a previously-obtained Future<String> or null
+        future: (widget.user_signed_in)?mails.getEmailDatabase():mails.getEmailAPI(), // a previously-obtained Future<String> or null
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
             return MainScreen(mails.emails);
