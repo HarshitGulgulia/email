@@ -1,12 +1,12 @@
+import 'package:email_client/screens/email/components/email_screen_details.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:email_client/models/Email.dart';
-
 import '../../constants.dart';
 import 'components/header.dart';
+import 'components/web_view.dart';
 
-///Email Screen ui which contains all the data fetched using IMAP. Takes Email as constructor parameter.
-class EmailScreen extends StatelessWidget {
+///Email Screen UI which contains all the data fetched using IMAP. Takes Email as constructor parameter.
+class EmailScreen extends StatefulWidget {
   const EmailScreen({
     Key key,
     this.email,
@@ -14,6 +14,11 @@ class EmailScreen extends StatelessWidget {
 
   final Email email;
 
+  @override
+  State<EmailScreen> createState() => _EmailScreenState();
+}
+
+class _EmailScreenState extends State<EmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,108 +32,22 @@ class EmailScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.all(kDefaultPadding),
-                  child: Row(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        maxRadius: 24,
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: AssetImage(email.image),
-                      ),
-                      SizedBox(width: kDefaultPadding),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text.rich(
-                                        TextSpan(
-                                          text: email.name,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button,
-                                          children: [
-                                            TextSpan(
-                                                text: email.from_email,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .caption),
-                                          ],
-                                        ),
-                                      ),
-                                      Text(
-                                        email.subject,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: kDefaultPadding / 2),
-                                Text(
-                                  email.time,
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: kDefaultPadding),
-                            LayoutBuilder(
-                              builder: (context, constraints) => SizedBox(
-                                width: constraints.maxWidth > 850
-                                    ? 800
-                                    : constraints.maxWidth,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      email.body,
-                                      style: TextStyle(
-                                        height: 1.5,
-                                        color: Color(0xFF4D5875),
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                    ),
-                                    SizedBox(height: kDefaultPadding),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Number of attachments",
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        Spacer(),
-                                        Text(
-                                          "Download All",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption,
-                                        ),
-                                        SizedBox(width: kDefaultPadding / 4),
-                                        Image.asset(
-                                          "assets/Icons/download.png",
-                                          height: 16,
-                                          color: kGrayColor,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(thickness: 1),
-                                    SizedBox(height: kDefaultPadding / 2),
-                                    SizedBox(
-                                      height: 200,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                      EmailScreenDetails(email: widget.email),
+                      SizedBox(height: kDefaultPadding),
+                      SizedBox(
+                        child: Text(
+                          widget.email.body,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color(0xFF4D5875),
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ),
+                      WebViewScreen(email: widget.email),
                     ],
                   ),
                 ),
@@ -140,3 +59,8 @@ class EmailScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+
+

@@ -1,9 +1,9 @@
-import 'package:email_client/Database/database_helper.dart';
+import 'package:email_client/Database/database_emails_helper.dart';
 import 'package:flutter/material.dart';
 
 ///Email data received is stored in this class
 class Email {
-  final String image, name, subject, body, time, from_email;
+  final String image, name, subject, body, time, from_email, html;
   final bool isAttachmentAvailable, isChecked;
   final Color tagColor;
 
@@ -16,20 +16,22 @@ class Email {
     this.body,
     this.isAttachmentAvailable,
     this.tagColor,
-    this.from_email
+    this.from_email,
+    this.html
   });
 
   Map<String, dynamic> toJson() =>
       {
-        DatabaseHelper.columnName : name,
-        DatabaseHelper.columnIsChecked: isChecked,
-        DatabaseHelper.columnTime: time,
-        DatabaseHelper.columnImage: image,
-        DatabaseHelper.columnSubject: subject,
-        DatabaseHelper.columnBody: body,
-        DatabaseHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
-        DatabaseHelper.columnTagColor: tagColor.toString(),
-        DatabaseHelper.columnFromEmail: from_email,
+        DatabaseEmailsHelper.columnName : name,
+        DatabaseEmailsHelper.columnIsChecked: isChecked,
+        DatabaseEmailsHelper.columnTime: time,
+        DatabaseEmailsHelper.columnImage: image,
+        DatabaseEmailsHelper.columnSubject: subject,
+        DatabaseEmailsHelper.columnBody: body,
+        DatabaseEmailsHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
+        DatabaseEmailsHelper.columnTagColor: tagColor.toString(),
+        DatabaseEmailsHelper.columnFromEmail: from_email,
+        DatabaseEmailsHelper.columnHtml: html,
       };
 
 
