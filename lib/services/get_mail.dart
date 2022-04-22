@@ -55,13 +55,20 @@ class GetMail {
   }
 
   Future<String> getEmailAPI() async {
-    // var response = await getImapEmailLogin();
+    const i_c = '"';
+    const a = '@';
     var response = await getImapEmailAuthenticate();
     if (response == DATALOADED) {
       emails = List.generate(
         mail_message.length,
         (index) => Email(
-          name: mail_message[index].decodeSender().single.personalName,
+          name: mail_message[index].decodeSender().single.personalName == null
+              ? mail_message[index].from.toString()[1] != '"'
+              ? mail_message[index].from.toString().substring(
+              1, mail_message[index].from.toString().indexOf(a))
+              : mail_message[index].from.toString().substring(
+              2, mail_message[index].from.toString().lastIndexOf(i_c))
+              : mail_message[index].decodeSender().single.personalName,
           image: "assets/images/avatar.png",
           subject: mail_message[index].decodeSubject(),
           isAttachmentAvailable: mail_message[index].hasAttachments(),
