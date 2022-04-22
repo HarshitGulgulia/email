@@ -23,7 +23,9 @@ class LoginLoadingError extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: Text('Error: ${error.error}'),
+              child: Text('Error: ${error.error}',
+              style: TextStyle(fontSize: 10),
+              ),
             ),
             ElevatedButton(
               onPressed: () async{
