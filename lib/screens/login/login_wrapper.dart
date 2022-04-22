@@ -21,7 +21,7 @@ class LoginWrapper extends StatelessWidget {
         future: GoogleAuthApi.checkStatus(), // a previously-obtained Future<String> or null
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData&&snapshot.data) {
-            return MailLoader(user_signed_in: true);
+            return MailLoader();
           } else if(snapshot.hasData&&!(snapshot.data)){
             return LoginScreen();
           } else if (snapshot.hasError) {

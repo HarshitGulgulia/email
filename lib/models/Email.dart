@@ -1,4 +1,3 @@
-import 'package:email_client/Database/database_helper.dart';
 import 'package:flutter/material.dart';
 
 ///Email data received is stored in this class
@@ -18,20 +17,6 @@ class Email {
     this.tagColor,
     this.from_email
   });
-
-  Map<String, dynamic> toJson() =>
-      {
-        DatabaseHelper.columnName : name,
-        DatabaseHelper.columnIsChecked: isChecked,
-        DatabaseHelper.columnTime: time,
-        DatabaseHelper.columnImage: image,
-        DatabaseHelper.columnSubject: subject,
-        DatabaseHelper.columnBody: body,
-        DatabaseHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
-        DatabaseHelper.columnTagColor: tagColor.toString(),
-        DatabaseHelper.columnFromEmail: from_email,
-      };
-
 
 }
 

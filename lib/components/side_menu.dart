@@ -1,4 +1,3 @@
-import 'package:email_client/Database/database_helper.dart';
 import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/screens/main/components/compose_email.dart';
 import 'package:email_client/services/authapi.dart';
@@ -181,7 +180,6 @@ class SideMenu extends StatelessWidget {
                     icon: Icon(Icons.logout,color: Colors.redAccent[700],size: 30,),
                     onPressed: () async{
                       await GoogleAuthApi.signOut();
-                      await DatabaseHelper.instance.delete();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => LoginScreen()),
