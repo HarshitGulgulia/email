@@ -1,4 +1,3 @@
-
 import 'package:email_client/Database/database_user_helper.dart';
 import 'package:email_client/constants.dart';
 import 'package:email_client/models/Email.dart';
@@ -11,11 +10,59 @@ import '../models/user.dart';
 class GetMail {
   List<Email> emails;
   List<MimeMessage> mail_message;
+  List<MimeMessage> inbox_message;
+  List<MimeMessage> sent_message;
+  List<MimeMessage> draft_message;
+  List<MimeMessage> bin_message;
   static String TOKEN;
   static User USERDETAILS;
   String imapServerHost = 'imap.gmail.com';
   int imapServerPort = 993;
   bool isImapServerSecure = true;
+
+  void fetchInbox(ImapClient client) async {
+    await client.selectInbox();
+    final fetchResult = await client.fetchRecentMessages(
+        messageCount: 30, criteria: 'BODY.PEEK[]');
+    inbox_message = fetchResult.messages;
+
+    for (final message in fetchResult.messages) {
+      printMessage(message);
+    }
+  }
+
+  void fetchSentMail(ImapClient client) async {
+    await client.selectMailboxByPath("[Gmail]/Sent Mail");
+    final fetchResult = await client.fetchRecentMessages(
+        messageCount: 30, criteria: 'BODY.PEEK[]');
+    sent_message = fetchResult.messages;
+
+    for (final message in fetchResult.messages) {
+      printMessage(message);
+    }
+  }
+
+  void fetchDrafts(ImapClient client) async {
+    await client.selectMailboxByPath("[Gmail]/Drafts");
+    final fetchResult = await client.fetchRecentMessages(
+        messageCount: 30, criteria: 'BODY.PEEK[]');
+    draft_message = fetchResult.messages;
+
+    for (final message in fetchResult.messages) {
+      printMessage(message);
+    }
+  }
+
+  void fetchBin(ImapClient client) async {
+    await client.selectMailboxByPath("[Gmail]/Bin");
+    final fetchResult = await client.fetchRecentMessages(
+        messageCount: 30, criteria: 'BODY.PEEK[]');
+    bin_message = fetchResult.messages;
+
+    for (final message in fetchResult.messages) {
+      printMessage(message);
+    }
+  }
 
   Future<String> getImapEmailAuthenticate() async {
     final client = ImapClient(isLogEnabled: true);
@@ -41,15 +88,11 @@ class GetMail {
       await client.authenticateWithOAuth2(email, token);
       final mailboxes = await client.listMailboxes();
       print('mailboxes: $mailboxes');
-      await client.selectInbox();
-      // fetch 10 most recent messages:
-      final fetchResult = await client.fetchRecentMessages(
-          messageCount: 30, criteria: 'BODY.PEEK[]');
-      mail_message = fetchResult.messages;
-
-      for (final message in fetchResult.messages) {
-        printMessage(message);
-      }
+      await fetchInbox(client);
+      // await fetchSentMail(client);
+      // await fetchDrafts(client);
+      // await fetchBin(client);
+      mail_message = inbox_message;
       return DATALOADED;
     } on ImapException catch (e) {
       print('IMAP failed with $e');
@@ -65,21 +108,23 @@ class GetMail {
       emails = List.generate(
         mail_message.length,
         (index) => Email(
-          name: mail_message[index].decodeSender().single.personalName == null
-              ? mail_message[index].from.toString()[1] != '"'
+          name: mail_message[index].from.toString()[1] == '"'
                   ? mail_message[index].from.toString().substring(
-                      1, mail_message[index].from.toString().indexOf(a))
-                  : mail_message[index].from.toString().substring(
                       2, mail_message[index].from.toString().lastIndexOf(i_c))
-              : mail_message[index].decodeSender().single.personalName,
+                  : mail_message[index].from.toString().substring(
+                      1, mail_message[index].from.toString().indexOf(a)),
           image: "assets/images/avatar.png",
           subject: mail_message[index].decodeSubject(),
           isAttachmentAvailable: mail_message[index].hasAttachments(),
           isChecked: !(mail_message[index].isFlagged),
           tagColor: null,
-          time: mail_message[index].decodeDate().toString().substring(0, 10),
+          time: mail_message[index].decodeDate().toString()[0] == '2'
+              ? mail_message[index].decodeDate().toString().substring(0, 10)
+              : ' ',
           body: mail_message[index].decodeTextHtmlPart() == null
-              ? mail_message[index].decodeTextPlainPart()
+              ? mail_message[index].decodeTextPlainPart() == null
+                  ? ' '
+                  : mail_message[index].decodeTextPlainPart()
               : ' ',
           from_email: mail_message[index].fromEmail,
           html: mail_message[index].decodeTextHtmlPart(),
@@ -110,8 +155,13 @@ class GetMail {
         name: rows[index][DatabaseEmailsHelper.columnName],
         image: rows[index][DatabaseEmailsHelper.columnImage],
         subject: rows[index][DatabaseEmailsHelper.columnSubject],
-        isAttachmentAvailable: (rows[index][DatabaseEmailsHelper.columnIsAttachmentAvailable] == 1) ? true : false,
-        isChecked: (rows[index][DatabaseEmailsHelper.columnIsChecked] == 1) ? true : false,
+        isAttachmentAvailable:
+            (rows[index][DatabaseEmailsHelper.columnIsAttachmentAvailable] == 1)
+                ? true
+                : false,
+        isChecked: (rows[index][DatabaseEmailsHelper.columnIsChecked] == 1)
+            ? true
+            : false,
         tagColor: null,
         time: rows[index][DatabaseEmailsHelper.columnTime],
         body: rows[index][DatabaseEmailsHelper.columnBody],
