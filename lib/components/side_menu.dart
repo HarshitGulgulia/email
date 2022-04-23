@@ -1,7 +1,6 @@
 import 'package:email_client/Database/database_emails_helper.dart';
 import 'package:email_client/Database/database_user_helper.dart';
 import 'package:email_client/screens/login/login_screen.dart';
-import 'package:email_client/screens/main/components/compose_email.dart';
 import 'package:email_client/services/authapi.dart';
 import 'package:email_client/services/get_mail.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +36,12 @@ class SideMenu extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(kDefaultPadding-5,10,10,0),
+                          padding: const EdgeInsets.fromLTRB(
+                              kDefaultPadding - 5, 10, 10, 0),
                           child: CircleAvatar(
                             radius: 30.0,
-                            backgroundImage: NetworkImage(GetMail.USERDETAILS.image),
+                            backgroundImage:
+                                NetworkImage(GetMail.USERDETAILS.image),
                           ),
                         ),
                       ),
@@ -60,7 +61,9 @@ class SideMenu extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: kDefaultPadding-15,),
+                            SizedBox(
+                              height: kDefaultPadding - 15,
+                            ),
                             Text(
                               GetMail.USERDETAILS.email,
                               style: TextStyle(
@@ -75,7 +78,11 @@ class SideMenu extends StatelessWidget {
                       // if (!Responsive.isDesktop(context)) CloseButton(),
                     ],
                   ),
-                  Divider(color: kPrimaryColor,thickness: 3,endIndent: 0,),
+                  Divider(
+                    color: kPrimaryColor,
+                    thickness: 3,
+                    endIndent: 0,
+                  ),
                 ],
               ),
             ),
@@ -87,7 +94,8 @@ class SideMenu extends StatelessWidget {
                   children: [
                     // Menu Items
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(kDefaultPadding-5, 0, kDefaultPadding-5, 0),
+                      padding: const EdgeInsets.fromLTRB(
+                          kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {},
                         title: "Inbox",
@@ -97,7 +105,8 @@ class SideMenu extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(kDefaultPadding-5, 0, kDefaultPadding-5, 0),
+                      padding: const EdgeInsets.fromLTRB(
+                          kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {},
                         title: "Sent",
@@ -106,7 +115,8 @@ class SideMenu extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(kDefaultPadding-5, 0, kDefaultPadding-5, 0),
+                      padding: const EdgeInsets.fromLTRB(
+                          kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {},
                         title: "Drafts",
@@ -115,7 +125,8 @@ class SideMenu extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(kDefaultPadding-5, 0, kDefaultPadding-5, 0),
+                      padding: const EdgeInsets.fromLTRB(
+                          kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {},
                         title: "Deleted",
@@ -150,23 +161,52 @@ class SideMenu extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.logout,color: Colors.redAccent[700],size: 30,),
-                    onPressed: () async{
-                      await GoogleAuthApi.signOut();
-                      await DatabaseUserHelper.instance.delete();
-                      await DatabaseEmailsHelper.instance.delete();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
-                    },
-    //   label: Text(
-                  //     'Sign out',
+                  // IconButton(
+                  //   icon: Icon(Icons.logout,color: Colors.redAccent[700],size: 30,),
+                  //   onPressed: () async{
+                  //     await GoogleAuthApi.signOut();
+                  //     await DatabaseUserHelper.instance.delete();
+                  //     await DatabaseEmailsHelper.instance.delete();
+                  //     Navigator.pushReplacement(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => LoginScreen()),
+                  //     );
+                  //   },
+                  // ),
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextButton.icon(
+                      label: Text(
+                        'Sign out',
+                        style: TextStyle(
+                            color: Colors.redAccent[700],
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.redAccent[700],
+                        size: 20,
+                      ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: kBgDarkColor,
+                      ),
+                      onPressed: () async {
+                        await GoogleAuthApi.signOut();
+                        await DatabaseUserHelper.instance.delete();
+                        await DatabaseEmailsHelper.instance.delete();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                  // label: Text(
+                  //   'Sign out',
                   //   style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
                   // ),
-                  ),
-
                 ],
               ),
             ),
