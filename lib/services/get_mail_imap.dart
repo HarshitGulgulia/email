@@ -104,7 +104,10 @@ class GetMailIMAP {
       EmailListData.setEmailSentList(sentEmails);
       
       //List of emails is stored to database
-      await StoreToDB.storeMailList(inboxEmails);
+      await StoreToDB.storeInboxMailList(inboxEmails);
+      await StoreToDB.storeDraftMailList(draftEmails);
+      await StoreToDB.storeBinMailList(binEmails);
+      await StoreToDB.storeSentMailList(sentEmails);
       //user data is stored to database
       await StoreToDB.storeUser();
     }

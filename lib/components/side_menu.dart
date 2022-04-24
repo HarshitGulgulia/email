@@ -1,4 +1,7 @@
-import 'package:email_client/Database/database_emails_helper.dart';
+import 'package:email_client/Database/database_bin_emails_helper.dart';
+import 'package:email_client/Database/database_draft_emails_helper.dart';
+import 'package:email_client/Database/database_inbox_emails_helper.dart';
+import 'package:email_client/Database/database_sent_emails_helper.dart';
 import 'package:email_client/Database/database_user_helper.dart';
 import 'package:email_client/models/emai_list_data.dart';
 import 'package:email_client/models/user_data.dart';
@@ -184,7 +187,10 @@ class SideMenu extends StatelessWidget {
                       onPressed: () async {
                         await GoogleAuthApi.signOut();
                         await DatabaseUserHelper.instance.delete();
-                        await DatabaseEmailsHelper.instance.delete();
+                        await DatabaseInboxEmailsHelper.instance.delete();
+                        await DatabaseBinEmailsHelper.instance.delete();
+                        await DatabaseSentEmailsHelper.instance.delete();
+                        await DatabaseDraftEmailsHelper.instance.delete();
                         EmailListData.setNullEmailInboxList();
                         EmailListData.setNullEmailDraftList();
                         EmailListData.setNullEmailSentList();
