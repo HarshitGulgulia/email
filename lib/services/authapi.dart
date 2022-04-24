@@ -1,3 +1,4 @@
+import 'package:email_client/models/user_data.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/user.dart';
@@ -6,8 +7,6 @@ import '../models/user.dart';
 class GoogleAuthApi {
 
   static final _googleSignIn=GoogleSignIn(scopes: ['https://mail.google.com/']);
-
-  static GoogleSignInAccount USER=_googleSignIn.currentUser;
 
   static String REFRESH_TOKEN;
 
@@ -41,27 +40,19 @@ class GoogleAuthApi {
     if (user == null) {
       return false;
     }
-    final email = user.email;
+    print('user not null');
     final auth = await user.authentication;
     final token = auth.accessToken;
-    // final idToken = auth.idToken;
-    USER = user;
-    print(email);
-    print(token);
+    final email = user.email;
+    final image = user.photoUrl;
+    final name = user.displayName;
+
+    UserData.setUserData(email, token, image, name);
+
     return await GoogleAuthApi.checkStatus();
   }
 
   static String getRefreshToken() => REFRESH_TOKEN;
-
-  static Future<String> getToken() async => (await USER.authentication).accessToken;
-
-  static String getEmail()=> USER.email;
-
-  static String getUsername() => USER.displayName;
-
-  static String getPhotoUrl() => USER.photoUrl;
-
-  static User getUser(String token) => User(email:USER.email,name: USER.displayName,token: token,image: USER.photoUrl);
 
   static Future<bool> checkStatus() async => await _googleSignIn.isSignedIn();
 

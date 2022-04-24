@@ -15,3 +15,10 @@ const kDefaultPadding = 20.0;
 
 const DATALOADED = 'Data Loaded';
 const DATALOADINGERROR = 'error';
+
+const IMAPHOSTSERVER = 'imap.gmail.com';
+const IMAPSERVERPORT = 993;
+const ISIMAPSERVERSECURE = true;
+
+const QOUTE = '"';
+const AT = '@';

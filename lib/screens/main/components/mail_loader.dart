@@ -1,12 +1,13 @@
+import 'package:email_client/models/emai_list_data.dart';
 import 'package:email_client/screens/error/mail_loader_error.dart';
 import 'package:email_client/screens/loading_screen.dart';
 import 'package:email_client/screens/login/login_wrapper.dart';
 import 'package:email_client/screens/main/main_screen.dart';
-import 'package:email_client/services/get_mail.dart';
+import 'package:email_client/services/get_mail_database.dart';
+import 'package:email_client/services/get_mail_imap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-GetMail mails= GetMail();
+import 'package:provider/provider.dart';
 
 class MailLoader extends StatefulWidget {
   const MailLoader({Key key, this.user, this.user_signed_in}) : super(key: key);
@@ -18,26 +19,27 @@ class MailLoader extends StatefulWidget {
 
 ///Loads user data when user launches the app
 class _MailLoaderState extends State<MailLoader> {
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTextStyle(
-      style: Theme.of(context).textTheme.headline2,
-      textAlign: TextAlign.center,
-      child: FutureBuilder<String>(
-        future: (widget.user_signed_in)?mails.getEmailDatabase():mails.getEmailAPI(), // a previously-obtained Future<String> or null
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.hasData) {
-            return MainScreen(mails.emails);
-          } else if(snapshot.hasData&&snapshot.data=='Refresh Failed'){
-            return LoginWrapper();
-          } else if (snapshot.hasError) {
+    // ignore: missing_required_param
+    return ChangeNotifierProvider<EmailListData>(
+        create: (context) => EmailListData(),
+        child: FutureBuilder<String>(
+          future: (widget.user_signed_in)?GetMailDatabase.getEmailDatabase():GetMailIMAP.getEmailAPI(),
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            if (snapshot.hasData) {
+              return MainScreen();
+            } else if (snapshot.hasData && snapshot.data == 'Refresh Failed') {
+              return LoginWrapper();
+            } else if (snapshot.hasError) {
               return MailLoadingError(error: snapshot);
-          } else {
-            return Loader();
-          }
-        },
-      ),
-    );
+            } else {
+              return Loader();
+            }
+          },
+        ),
+      );
   }
 }
+
+//

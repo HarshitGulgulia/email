@@ -10,9 +10,6 @@ GoogleAuthApi googleApi = GoogleAuthApi();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
-
-
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -43,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "Sign in with Google",
                     onPressed: () async {
                       bool user = await googleApi.authenticateUser();
+                      print(user);
                       if(user) {
                         Navigator.pushReplacement(
                           context,
