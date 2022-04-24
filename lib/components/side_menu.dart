@@ -1,11 +1,16 @@
-import 'package:email_client/Database/database_emails_helper.dart';
+import 'package:email_client/Database/database_bin_emails_helper.dart';
+import 'package:email_client/Database/database_draft_emails_helper.dart';
+import 'package:email_client/Database/database_inbox_emails_helper.dart';
+import 'package:email_client/Database/database_sent_emails_helper.dart';
 import 'package:email_client/Database/database_user_helper.dart';
+import 'package:email_client/models/emai_list_data.dart';
 import 'package:email_client/models/user_data.dart';
 import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/services/authapi.dart';
 import 'package:email_client/services/get_mail_imap.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../extensions.dart';
@@ -98,7 +103,10 @@ class SideMenu extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
-                        press: () {},
+                        press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateCurrentListToInboxList();
+                          Navigator.pop(context);
+                        },
                         title: "Inbox",
                         iconSrc: "assets/Icons/inbox.png",
                         isActive: true,
@@ -109,7 +117,10 @@ class SideMenu extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
-                        press: () {},
+                        press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateCurrentListToSentList();
+                          Navigator.pop(context);
+                        },
                         title: "Sent",
                         iconSrc: "assets/Icons/send.png",
                         isActive: false,
@@ -119,7 +130,10 @@ class SideMenu extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
-                        press: () {},
+                        press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateCurrentListToDraftList();
+                          Navigator.pop(context);
+                        },
                         title: "Drafts",
                         iconSrc: "assets/Icons/file.png",
                         isActive: false,
@@ -129,7 +143,10 @@ class SideMenu extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
-                        press: () {},
+                        press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateCurrentListToBinList();
+                          Navigator.pop(context);
+                        },
                         title: "Deleted",
                         iconSrc: "assets/Icons/trash.png",
                         isActive: false,
@@ -170,7 +187,15 @@ class SideMenu extends StatelessWidget {
                       onPressed: () async {
                         await GoogleAuthApi.signOut();
                         await DatabaseUserHelper.instance.delete();
-                        await DatabaseEmailsHelper.instance.delete();
+                        await DatabaseInboxEmailsHelper.instance.delete();
+                        await DatabaseBinEmailsHelper.instance.delete();
+                        await DatabaseSentEmailsHelper.instance.delete();
+                        await DatabaseDraftEmailsHelper.instance.delete();
+                        EmailListData.setNullEmailInboxList();
+                        EmailListData.setNullEmailDraftList();
+                        EmailListData.setNullEmailSentList();
+                        EmailListData.setNullEmailBinList();
+                        EmailListData.setNullCurrentEmailList();
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

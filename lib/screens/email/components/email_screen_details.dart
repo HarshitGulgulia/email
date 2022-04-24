@@ -38,7 +38,7 @@ class _EmailScreenDetailsState extends State<EmailScreenDetails> {
                     //style: Theme.of(context).textTheme.button,
                   ),
                   Text(
-                    widget.email.from_email,
+                    widget.email.email,
                     style: Theme.of(context).textTheme.caption,
                   ),
                   // Row(

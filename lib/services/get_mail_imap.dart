@@ -1,19 +1,14 @@
-import 'package:email_client/Database/database_user_helper.dart';
 import 'package:email_client/Database/store_to_db.dart';
 import 'package:email_client/constants.dart';
 import 'package:email_client/models/Email.dart';
 import 'package:email_client/models/user_data.dart';
-import 'package:email_client/services/authapi.dart';
 import 'package:enough_mail/enough_mail.dart';
 
 import 'package:email_client/logs/log_functions.dart';
-import '../Database/database_emails_helper.dart';
 import '../models/emai_list_data.dart';
-import '../models/user.dart';
 
 class GetMailIMAP {
-  static List<Email> emails;
-  static List<MimeMessage> mail_message;
+  static List<Email> inboxEmails,draftEmails,sentEmails,binEmails;
   static List<MimeMessage> inbox_message;
   static List<MimeMessage> sent_message;
   static List<MimeMessage> draft_message;
@@ -37,7 +32,7 @@ class GetMailIMAP {
   static void fetchSentMail(ImapClient client) async {
     await client.selectMailboxByPath("[Gmail]/Sent Mail");
     final fetchResult = await client.fetchRecentMessages(
-        messageCount: 30, criteria: 'BODY.PEEK[]');
+        messageCount: 15, criteria: 'BODY.PEEK[]');
     sent_message = fetchResult.messages;
 
     for (final message in fetchResult.messages) {
@@ -48,7 +43,7 @@ class GetMailIMAP {
   static void fetchDrafts(ImapClient client) async {
     await client.selectMailboxByPath("[Gmail]/Drafts");
     final fetchResult = await client.fetchRecentMessages(
-        messageCount: 30, criteria: 'BODY.PEEK[]');
+        messageCount: 15, criteria: 'BODY.PEEK[]');
     draft_message = fetchResult.messages;
 
     for (final message in fetchResult.messages) {
@@ -59,7 +54,7 @@ class GetMailIMAP {
   static void fetchBin(ImapClient client) async {
     await client.selectMailboxByPath("[Gmail]/Bin");
     final fetchResult = await client.fetchRecentMessages(
-        messageCount: 30, criteria: 'BODY.PEEK[]');
+        messageCount: 15, criteria: 'BODY.PEEK[]');
     bin_message = fetchResult.messages;
 
     for (final message in fetchResult.messages) {
@@ -80,11 +75,10 @@ class GetMailIMAP {
       final mailboxes = await client.listMailboxes();
       print('mailboxes: $mailboxes');
       await fetchInbox(client);
-      // await fetchSentMail(client);
-      // await fetchDrafts(client);
-      // await fetchBin(client);
-      mail_message = inbox_message;
-
+      await fetchSentMail(client);
+      await fetchDrafts(client);
+      await fetchBin(client);
+      
       return DATALOADED;
     } on ImapException catch (e) {
       print('IMAP failed with $e');
@@ -96,10 +90,24 @@ class GetMailIMAP {
 
     var response = await getImapEmailAuthenticate();
     if (response == DATALOADED) {
-      emails = ListGenerator.mimemessageToEmailList(mail_message);
-      EmailListData.setCurrentEmailList(emails);
+      inboxEmails = ListGenerator.mimemessageToEmailList(inbox_message,'inbox');
+      EmailListData.setEmailInboxList(inboxEmails);
+      EmailListData.setCurrentEmailList(inboxEmails);
+
+      draftEmails = ListGenerator.mimemessageToEmailList(draft_message,'draft');
+      EmailListData.setEmailDraftList(draftEmails);
+
+      binEmails = ListGenerator.mimemessageToEmailList(bin_message,'bin');
+      EmailListData.setEmailBinList(binEmails);
+
+      sentEmails = ListGenerator.mimemessageToEmailList(sent_message,'sent');
+      EmailListData.setEmailSentList(sentEmails);
+      
       //List of emails is stored to database
-      await StoreToDB.storeMailList(emails);
+      await StoreToDB.storeInboxMailList(inboxEmails);
+      await StoreToDB.storeDraftMailList(draftEmails);
+      await StoreToDB.storeBinMailList(binEmails);
+      await StoreToDB.storeSentMailList(sentEmails);
       //user data is stored to database
       await StoreToDB.storeUser();
     }

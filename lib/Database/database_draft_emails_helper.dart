@@ -4,10 +4,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DatabaseEmailsHelper{
+class DatabaseDraftEmailsHelper{
 
-  static const _dbName = 'Database.db';
-  static const _dbVersion = 1;
+  static const _dbName = 'DraftDatabase.db';
+  static const _dbVersion = 3;
   static const _tableName = 'Emails';
   static const columnId='ID';
   static const columnIsChecked='IsChecked';
@@ -23,8 +23,8 @@ class DatabaseEmailsHelper{
 
 
   //make it a singleton class
-  DatabaseEmailsHelper._privateConstructor();
-  static final DatabaseEmailsHelper instance = DatabaseEmailsHelper._privateConstructor();
+  DatabaseDraftEmailsHelper._privateConstructor();
+  static final DatabaseDraftEmailsHelper instance = DatabaseDraftEmailsHelper._privateConstructor();
 
   static Database _database;
 

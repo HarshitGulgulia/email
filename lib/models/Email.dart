@@ -1,4 +1,4 @@
-import 'package:email_client/Database/database_emails_helper.dart';
+import 'package:email_client/Database/database_inbox_emails_helper.dart';
 import 'package:enough_mail/mime_message.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +6,7 @@ import '../constants.dart';
 
 ///Email data received is stored in this class
 class Email {
-  final String image, name, subject, body, time, from_email, html;
+  final String image, name, subject, body, time, email, html;
   final bool isAttachmentAvailable, isChecked;
   final Color tagColor;
 
@@ -19,22 +19,22 @@ class Email {
     this.body,
     this.isAttachmentAvailable,
     this.tagColor,
-    this.from_email,
+    this.email,
     this.html
   });
 
   Map<String, dynamic> toJson() =>
       {
-        DatabaseEmailsHelper.columnName : name,
-        DatabaseEmailsHelper.columnIsChecked: isChecked,
-        DatabaseEmailsHelper.columnTime: time,
-        DatabaseEmailsHelper.columnImage: image,
-        DatabaseEmailsHelper.columnSubject: subject,
-        DatabaseEmailsHelper.columnBody: body,
-        DatabaseEmailsHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
-        DatabaseEmailsHelper.columnTagColor: tagColor.toString(),
-        DatabaseEmailsHelper.columnFromEmail: from_email,
-        DatabaseEmailsHelper.columnHtml: html,
+        DatabaseInboxEmailsHelper.columnName : name,
+        DatabaseInboxEmailsHelper.columnIsChecked: isChecked,
+        DatabaseInboxEmailsHelper.columnTime: time,
+        DatabaseInboxEmailsHelper.columnImage: image,
+        DatabaseInboxEmailsHelper.columnSubject: subject,
+        DatabaseInboxEmailsHelper.columnBody: body,
+        DatabaseInboxEmailsHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
+        DatabaseInboxEmailsHelper.columnTagColor: tagColor.toString(),
+        DatabaseInboxEmailsHelper.columnFromEmail: email,
+        DatabaseInboxEmailsHelper.columnHtml: html,
       };
 
 }
@@ -42,7 +42,7 @@ class Email {
 
 class ListGenerator{
 
-  static List<Email> mimemessageToEmailList(List<MimeMessage> mail_message) => List.generate(
+  static List<Email> mimemessageToEmailList(List<MimeMessage> mail_message, String box) => List.generate(
     mail_message.length,
         (index) => Email(
       name: mail_message[index].from.toString()[1] == '"'
@@ -63,7 +63,7 @@ class ListGenerator{
           ? ' '
           : mail_message[index].decodeTextPlainPart()
           : ' ',
-      from_email: mail_message[index].fromEmail,
+      email: box == 'inbox' || box == 'bin' ? mail_message[index].fromEmail : box == 'draft' ? 'Draft' : mail_message[index].recipientAddresses.toString(),
       html: mail_message[index].decodeTextHtmlPart(),
     ),
   );
@@ -71,21 +71,21 @@ class ListGenerator{
   static List<Email> databaseJsonToEmailList(List<Map<String, dynamic>> rows) => List.generate(
     rows.length,
         (index) => Email(
-      name: rows[index][DatabaseEmailsHelper.columnName],
-      from_email: rows[index][DatabaseEmailsHelper.columnFromEmail],
-      image: rows[index][DatabaseEmailsHelper.columnImage],
-      subject: rows[index][DatabaseEmailsHelper.columnSubject],
+      name: rows[index][DatabaseInboxEmailsHelper.columnName],
+      email: rows[index][DatabaseInboxEmailsHelper.columnFromEmail],
+      image: rows[index][DatabaseInboxEmailsHelper.columnImage],
+      subject: rows[index][DatabaseInboxEmailsHelper.columnSubject],
       isAttachmentAvailable:
-      (rows[index][DatabaseEmailsHelper.columnIsAttachmentAvailable] == 1)
+      (rows[index][DatabaseInboxEmailsHelper.columnIsAttachmentAvailable] == 1)
           ? true
           : false,
-      isChecked: (rows[index][DatabaseEmailsHelper.columnIsChecked] == 1)
+      isChecked: (rows[index][DatabaseInboxEmailsHelper.columnIsChecked] == 1)
           ? true
           : false,
       tagColor: null,
-      time: rows[index][DatabaseEmailsHelper.columnTime],
-      body: rows[index][DatabaseEmailsHelper.columnBody],
-      html: rows[index][DatabaseEmailsHelper.columnHtml],
+      time: rows[index][DatabaseInboxEmailsHelper.columnTime],
+      body: rows[index][DatabaseInboxEmailsHelper.columnBody],
+      html: rows[index][DatabaseInboxEmailsHelper.columnHtml],
     ),
   );
 
