@@ -6,7 +6,7 @@ import '../constants.dart';
 
 ///Email data received is stored in this class
 class Email {
-  final String image, name, subject, body, time, from_email, html;
+  final String image, name, subject, body, time, email, html;
   final bool isAttachmentAvailable, isChecked;
   final Color tagColor;
 
@@ -19,7 +19,7 @@ class Email {
     this.body,
     this.isAttachmentAvailable,
     this.tagColor,
-    this.from_email,
+    this.email,
     this.html
   });
 
@@ -33,7 +33,7 @@ class Email {
         DatabaseEmailsHelper.columnBody: body,
         DatabaseEmailsHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
         DatabaseEmailsHelper.columnTagColor: tagColor.toString(),
-        DatabaseEmailsHelper.columnFromEmail: from_email,
+        DatabaseEmailsHelper.columnFromEmail: email,
         DatabaseEmailsHelper.columnHtml: html,
       };
 
@@ -42,7 +42,7 @@ class Email {
 
 class ListGenerator{
 
-  static List<Email> mimemessageToEmailList(List<MimeMessage> mail_message) => List.generate(
+  static List<Email> mimemessageToEmailList(List<MimeMessage> mail_message, String box) => List.generate(
     mail_message.length,
         (index) => Email(
       name: mail_message[index].from.toString()[1] == '"'
@@ -63,7 +63,7 @@ class ListGenerator{
           ? ' '
           : mail_message[index].decodeTextPlainPart()
           : ' ',
-      from_email: mail_message[index].fromEmail,
+      email: box == 'inbox' || box == 'bin' ? mail_message[index].fromEmail : box == 'draft' ? 'Draft' : mail_message[index].recipientAddresses.toString(),
       html: mail_message[index].decodeTextHtmlPart(),
     ),
   );
@@ -72,7 +72,7 @@ class ListGenerator{
     rows.length,
         (index) => Email(
       name: rows[index][DatabaseEmailsHelper.columnName],
-      from_email: rows[index][DatabaseEmailsHelper.columnFromEmail],
+      email: rows[index][DatabaseEmailsHelper.columnFromEmail],
       image: rows[index][DatabaseEmailsHelper.columnImage],
       subject: rows[index][DatabaseEmailsHelper.columnSubject],
       isAttachmentAvailable:

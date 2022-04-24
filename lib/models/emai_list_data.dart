@@ -13,8 +13,60 @@ class EmailListData extends ChangeNotifier{
     return UnmodifiableListView(_currentEmailList);
   }
 
+  static UnmodifiableListView get EmailListInbox {
+    return UnmodifiableListView(_emailInboxList);
+  }
+
+  UnmodifiableListView get EmailListSent {
+    return UnmodifiableListView(_emailSentList);
+  }
+
+  UnmodifiableListView get EmailListDraft {
+    return UnmodifiableListView(_emailDraftList);
+  }
+
+  UnmodifiableListView get EmailListBin {
+    return UnmodifiableListView(_emailBinList);
+  }
+
+  static setEmailInboxList(List<Email> emailInboxList){
+    _emailInboxList=emailInboxList;
+  }
+
+  static setEmailDraftList(List<Email> emailDraftList){
+    _emailDraftList=emailDraftList;
+  }
+
+  static setEmailSentList(List<Email> emailSentList){
+    _emailSentList=emailSentList;
+  }
+
+  static setEmailBinList(List<Email> emailBinList){
+    _emailBinList=emailBinList;
+  }
+
   static setCurrentEmailList(List<Email> currentEmailList){
     _currentEmailList=currentEmailList;
+  }
+
+  static setNullEmailInboxList(){
+    _emailInboxList=[];
+  }
+
+  static setNullEmailDraftList(){
+    _emailDraftList=[];
+  }
+
+  static setNullEmailSentList(){
+    _emailSentList=[];
+  }
+
+  static setNullEmailBinList(){
+    _emailBinList=[];
+  }
+
+  static setNullCurrentEmailList(){
+    _currentEmailList=[];
   }
   
   void addEmail(Email email){
