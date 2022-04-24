@@ -5,16 +5,13 @@ import 'package:email_client/components/side_menu.dart';
 import 'package:email_client/responsive.dart';
 import 'package:email_client/models/Email.dart';
 import 'package:email_client/screens/email/email_screen.dart';
+import 'package:provider/provider.dart';
+import '../../models/emai_list_data.dart';
 import 'components/compose_email.dart';
 import 'components/list_of_emails.dart';
 
 // ignore: must_be_immutable
 class MainScreen extends StatefulWidget {
-  List<Email> emails;
-  MainScreen(List<Email> email) {
-    emails = email;
-  }
-
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
@@ -28,17 +25,17 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: Responsive(
         // Let's work on our mobile part
-        mobile: ListOfEmails(emails: widget.emails),
+        mobile: ListOfEmails(),
         tablet: Row(
           children: [
             Expanded(
               flex: 6,
-              child: ListOfEmails(emails: widget.emails),
+              child: ListOfEmails(),
             ),
             Expanded(
               flex: 9,
               child:
-                  EmailScreen(email: widget.emails[widget.emails.length - 1]),
+                  EmailScreen(email: Provider.of<EmailListData>(context).EmailList[Provider.of<EmailListData>(context).EmailList.length-1]),
             ),
           ],
         ),
@@ -52,12 +49,12 @@ class _MainScreenState extends State<MainScreen> {
             ),
             Expanded(
               flex: _size.width > 1340 ? 4 : 5,
-              child: ListOfEmails(emails: widget.emails),
+              child: ListOfEmails(),
             ),
             Expanded(
               flex: _size.width > 1340 ? 7 : 10,
               child:
-                  EmailScreen(email: widget.emails[widget.emails.length - 1]),
+                  EmailScreen(email: Provider.of<EmailListData>(context).EmailList[Provider.of<EmailListData>(context).EmailList.length-1]),
             ),
           ],
         ),

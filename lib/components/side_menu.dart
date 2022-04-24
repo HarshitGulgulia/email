@@ -1,8 +1,9 @@
 import 'package:email_client/Database/database_emails_helper.dart';
 import 'package:email_client/Database/database_user_helper.dart';
+import 'package:email_client/models/user_data.dart';
 import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/services/authapi.dart';
-import 'package:email_client/services/get_mail.dart';
+import 'package:email_client/services/get_mail_imap.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/responsive.dart';
 
@@ -41,7 +42,7 @@ class SideMenu extends StatelessWidget {
                           child: CircleAvatar(
                             radius: 30.0,
                             backgroundImage:
-                                NetworkImage(GetMail.USERDETAILS.image),
+                                NetworkImage(UserData.userData.image),
                           ),
                         ),
                       ),
@@ -54,7 +55,7 @@ class SideMenu extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Text(
-                                GetMail.USERDETAILS.name,
+                                UserData.userData.name,
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
@@ -65,7 +66,7 @@ class SideMenu extends StatelessWidget {
                               height: kDefaultPadding - 15,
                             ),
                             Text(
-                              GetMail.USERDETAILS.email,
+                              UserData.userData.email,
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
@@ -137,19 +138,6 @@ class SideMenu extends StatelessWidget {
                     ),
 
                     SizedBox(height: kDefaultPadding * 2),
-                    // ElevatedButton(
-                    //     onPressed: () async{
-                    //       await GoogleAuthApi.signOut();
-                    //       Navigator.pushReplacement(
-                    //         context,
-                    //         MaterialPageRoute(builder: (context) => LoginScreen()),
-                    //       );
-                    //     },
-                    //     child: Text('Sign Out'),
-                    //   style: ElevatedButton.styleFrom(
-                    //     primary: kPrimaryColor,
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -161,18 +149,6 @@ class SideMenu extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  // IconButton(
-                  //   icon: Icon(Icons.logout,color: Colors.redAccent[700],size: 30,),
-                  //   onPressed: () async{
-                  //     await GoogleAuthApi.signOut();
-                  //     await DatabaseUserHelper.instance.delete();
-                  //     await DatabaseEmailsHelper.instance.delete();
-                  //     Navigator.pushReplacement(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => LoginScreen()),
-                  //     );
-                  //   },
-                  // ),
                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: TextButton.icon(
@@ -203,10 +179,6 @@ class SideMenu extends StatelessWidget {
                       },
                     ),
                   ),
-                  // label: Text(
-                  //   'Sign out',
-                  //   style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
-                  // ),
                 ],
               ),
             ),

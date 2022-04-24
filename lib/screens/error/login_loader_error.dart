@@ -2,6 +2,7 @@
 import 'package:email_client/Database/database_emails_helper.dart';
 import 'package:flutter/material.dart';
 
+import '../../Database/database_user_helper.dart';
 import '../../services/authapi.dart';
 import '../login/login_screen.dart';
 
@@ -31,6 +32,8 @@ class LoginLoadingError extends StatelessWidget {
             ElevatedButton(
               onPressed: () async{
                 await GoogleAuthApi.signOut();
+                await DatabaseUserHelper.instance.delete();
+                await DatabaseEmailsHelper.instance.delete();
                 // await DatabaseEmailsHelper.instance.deleteDatabase();
                 Navigator.pushReplacement(
                   context,

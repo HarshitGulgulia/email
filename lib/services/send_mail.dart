@@ -1,3 +1,4 @@
+import 'package:email_client/models/user_data.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
@@ -9,23 +10,18 @@ sendMail(String sendTo,String mailSubject,String mailText,List<String> mailAttac
 
   //also use for gmail smtp
   //final smtpServer = gmail(username, password);
-
   String token;
-  token = await GoogleAuthApi.getToken();
-  String email = GoogleAuthApi.getEmail();
-  String username = GoogleAuthApi.getUsername();
+  String email = UserData.userData.email;
+  String username = UserData.userData.name;
 
-  if(token==null||email==null){
-    final bool tokenStatus = await GoogleAuthApi.generateRefreshToken();
-    if(tokenStatus) {
-      token = GoogleAuthApi.REFRESH_TOKEN;
-      email = GoogleAuthApi.getEmail();
-      username = GoogleAuthApi.getUsername();
-    }
-    else{
-      await GoogleAuthApi.signOut();
-      return 'Refresh Failed';
-    }
+  final bool tokenStatus = await GoogleAuthApi.generateRefreshToken();
+
+  if(tokenStatus) {
+    token = GoogleAuthApi.REFRESH_TOKEN;
+  }
+  else{
+    await GoogleAuthApi.signOut();
+    return 'Refresh Failed';
   }
 
   final smtpServer = await gmailSaslXoauth2(email,token);
