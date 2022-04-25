@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:email_client/models/Email.dart';
-
 import '../../../constants.dart';
 import '../../../extensions.dart';
 
@@ -19,10 +18,9 @@ class EmailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  Here the shadow is not showing properly
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: kDefaultPadding/2, vertical: kDefaultPadding / 2),
+          horizontal: kDefaultPadding / 2, vertical: kDefaultPadding / 2),
       child: InkWell(
         onTap: press,
         child: Stack(

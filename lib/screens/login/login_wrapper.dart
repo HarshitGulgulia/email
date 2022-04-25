@@ -1,11 +1,8 @@
 import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/screens/main/components/mail_loader.dart';
-
 import 'package:email_client/services/authapi.dart';
-
 import 'package:flutter/material.dart';
 import 'package:email_client/screens/error/login_loader_error.dart';
-
 import '../loading_screen.dart';
 
 ///Redirects the user on different pages from login page, in accordance to login status
@@ -20,12 +17,12 @@ class LoginWrapper extends StatelessWidget {
       child: FutureBuilder<bool>(
         future: GoogleAuthApi.checkStatus(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.hasData&&snapshot.data) {
+          if (snapshot.hasData && snapshot.data) {
             return MailLoader(user_signed_in: true);
-          } else if(snapshot.hasData&&!(snapshot.data)){
+          } else if (snapshot.hasData && !(snapshot.data)) {
             return LoginScreen();
           } else if (snapshot.hasError) {
-              return LoginLoadingError(error: snapshot);
+            return LoginLoadingError(error: snapshot);
           } else {
             return Loader();
           }

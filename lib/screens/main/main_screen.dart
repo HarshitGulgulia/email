@@ -1,27 +1,24 @@
 import 'package:email_client/constants.dart';
-import 'package:email_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:email_client/components/side_menu.dart';
 import 'package:email_client/responsive.dart';
-import 'package:email_client/models/Email.dart';
 import 'package:email_client/screens/email/email_screen.dart';
 import 'package:provider/provider.dart';
-import '../../models/emai_list_data.dart';
+import '../../models/email_list_data.dart';
 import 'components/compose_email.dart';
 import 'components/list_of_emails.dart';
 
-// ignore: must_be_immutable
 class MainScreen extends StatefulWidget {
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
+
 ///Main Screen of email client ui with three components- ListOfEmails, EmailScreen, SideMenu. Takes Email<List> as constructor parameter.
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     // It provide us the width and height
     Size _size = MediaQuery.of(context).size;
-    //print(widget.emails[1].time);
     return Scaffold(
       body: Responsive(
         // Let's work on our mobile part
@@ -34,8 +31,10 @@ class _MainScreenState extends State<MainScreen> {
             ),
             Expanded(
               flex: 9,
-              child:
-                  EmailScreen(email: Provider.of<EmailListData>(context).EmailList[Provider.of<EmailListData>(context).EmailList.length-1]),
+              child: EmailScreen(
+                  email: Provider.of<EmailListData>(context).EmailList[
+                      Provider.of<EmailListData>(context).EmailList.length -
+                          1]),
             ),
           ],
         ),
@@ -53,8 +52,10 @@ class _MainScreenState extends State<MainScreen> {
             ),
             Expanded(
               flex: _size.width > 1340 ? 7 : 10,
-              child:
-                  EmailScreen(email: Provider.of<EmailListData>(context).EmailList[Provider.of<EmailListData>(context).EmailList.length-1]),
+              child: EmailScreen(
+                  email: Provider.of<EmailListData>(context).EmailList[
+                      Provider.of<EmailListData>(context).EmailList.length -
+                          1]),
             ),
           ],
         ),

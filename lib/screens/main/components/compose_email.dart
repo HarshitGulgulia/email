@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-
 import '../../../constants.dart';
 import '../../../services/send_mail.dart';
-
 
 class Compose extends StatefulWidget {
   const Compose({Key key}) : super(key: key);
@@ -43,7 +40,8 @@ class _ComposeState extends State<Compose> {
     String platformResponse;
 
     try {
-      await sendMail(email.recipients[0],email.subject,email.body,email.attachmentPaths); //send code
+      await sendMail(email.recipients[0], email.subject, email.body,
+          email.attachmentPaths); //send code
       platformResponse = 'success';
     } catch (error) {
       print(error);
@@ -65,10 +63,10 @@ class _ComposeState extends State<Compose> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: const Text(
-            'Compose',
+          'Compose',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: kBgLightColor,  // kBgLightColor
+        backgroundColor: kBgLightColor, // kBgLightColor
         elevation: 0.0,
         bottom: PreferredSize(
             child: Container(
@@ -83,7 +81,7 @@ class _ComposeState extends State<Compose> {
             onPressed: _openImagePicker,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0,0,10,0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: IconButton(
               color: Colors.black,
               onPressed: send,
@@ -106,9 +104,7 @@ class _ComposeState extends State<Compose> {
                 child: TextField(
                   controller: _recipientController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-
-                    ),
+                    border: OutlineInputBorder(),
                     labelText: 'Recipient',
                   ),
                 ),
@@ -138,7 +134,7 @@ class _ComposeState extends State<Compose> {
               ),
               CheckboxListTile(
                 contentPadding:
-                const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
                 title: const Text('HTML'),
                 onChanged: (bool value) {
                   if (value != null) {
@@ -169,16 +165,9 @@ class _ComposeState extends State<Compose> {
                           )
                         ],
                       ),
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: IconButton(
-                    //     icon: Icon(Icons.attach_file),
-                    //     onPressed: _openImagePicker,
-                    //   ),
-                    // ),
                     TextButton(
                       child: const Text(
-                          'Attach file in app documents directory',
+                        'Attach file in app documents directory',
                         style: TextStyle(color: kTitleTextColor),
                       ),
                       onPressed: () => _attachFileFromAppDocumentsDirectoy(),
@@ -223,7 +212,7 @@ class _ComposeState extends State<Compose> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-              'Failed to create file in application directory',
+            'Failed to create file in application directory',
             style: TextStyle(color: kPrimaryColor),
           ),
         ),

@@ -32,52 +32,13 @@ class _EmailScreenDetailsState extends State<EmailScreenDetails> {
                 children: [
                   Text(
                     widget.email.name,
-                    style: TextStyle(
-                      fontSize: 18
-                    ),
+                    style: TextStyle(fontSize: 18),
                     //style: Theme.of(context).textTheme.button,
                   ),
                   Text(
-                    widget.email.email,
+                    widget.email.from_email,
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       widget.email.name,
-                  //       style: Theme.of(context)
-                  //           .textTheme
-                  //           .button,
-                  //     ),
-                  //     // SizedBox(width: kDefaultPadding/10),
-                  //     Text(
-                  //         widget.email.from_email,
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .caption,
-                  //     ),
-                  //   ],
-                  // ),
-                  // Text.rich(
-                  //   TextSpan(
-                  //     text: widget.email.name,
-                  //     style: Theme.of(context)
-                  //         .textTheme
-                  //         .button,
-                  //     children: [
-                  //       TextSpan(
-                  //           text:
-                  //           widget.email.from_email,
-                  //           style: Theme.of(context)
-                  //               .textTheme
-                  //               .caption),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Text(
-                  //   widget.email.subject,
-                  //   style: Theme.of(context).textTheme.headline6,
-                  // )
                 ],
               ),
             ),

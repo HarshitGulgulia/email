@@ -1,22 +1,19 @@
-import 'package:email_client/Database/database_bin_emails_helper.dart';
-import 'package:email_client/Database/database_draft_emails_helper.dart';
 import 'package:email_client/Database/database_inbox_emails_helper.dart';
 import 'package:email_client/Database/database_sent_emails_helper.dart';
+import 'package:email_client/Database/database_bin_emails_helper.dart';
+import 'package:email_client/Database/database_draft_emails_helper.dart';
+import 'package:email_client/models/email_list_data.dart';
+import 'package:email_client/services/get_mail_imap.dart';
+import 'package:provider/provider.dart';
 import 'package:email_client/Database/database_user_helper.dart';
-import 'package:email_client/models/emai_list_data.dart';
 import 'package:email_client/models/user_data.dart';
 import 'package:email_client/screens/login/login_screen.dart';
 import 'package:email_client/services/authapi.dart';
-import 'package:email_client/services/get_mail_imap.dart';
 import 'package:flutter/material.dart';
-import 'package:email_client/responsive.dart';
-import 'package:provider/provider.dart';
-
 import '../constants.dart';
-import '../extensions.dart';
 import 'side_menu_item.dart';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 
 ///Sidebar ui generator
 class SideMenu extends StatelessWidget {
@@ -80,8 +77,6 @@ class SideMenu extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // We don't want to show this close button on Desktop mood
-                      // if (!Responsive.isDesktop(context)) CloseButton(),
                     ],
                   ),
                   Divider(
@@ -104,12 +99,13 @@ class SideMenu extends StatelessWidget {
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateInboxToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToInboxList();
                           Navigator.pop(context);
                         },
                         title: "Inbox",
-                        iconSrc: "assets/Icons/inbox.png",
-                        isActive: true,
+                        iconSrc: Icons.inbox,
+                        isActive: Provider.of<EmailListData>(context, listen: false).inboxState,
                         //itemCount: 3,
                       ),
                     ),
@@ -118,12 +114,13 @@ class SideMenu extends StatelessWidget {
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateSentToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToSentList();
                           Navigator.pop(context);
                         },
                         title: "Sent",
-                        iconSrc: "assets/Icons/send.png",
-                        isActive: false,
+                        iconSrc: Icons.send,
+                        isActive: Provider.of<EmailListData>(context, listen: false).sentState,
                       ),
                     ),
                     Padding(
@@ -131,12 +128,13 @@ class SideMenu extends StatelessWidget {
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateDraftToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToDraftList();
                           Navigator.pop(context);
                         },
-                        title: "Drafts",
-                        iconSrc: "assets/Icons/file.png",
-                        isActive: false,
+                        title: "Draft",
+                        iconSrc: Icons.folder_open_outlined,
+                        isActive: Provider.of<EmailListData>(context, listen: false).draftState,
                       ),
                     ),
                     Padding(
@@ -144,12 +142,13 @@ class SideMenu extends StatelessWidget {
                           kDefaultPadding - 5, 0, kDefaultPadding - 5, 0),
                       child: SideMenuItem(
                         press: () {
+                          Provider.of<EmailListData>(context, listen: false).updateBinToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToBinList();
                           Navigator.pop(context);
                         },
                         title: "Deleted",
-                        iconSrc: "assets/Icons/trash.png",
-                        isActive: false,
+                        iconSrc: Icons.delete,
+                        isActive: Provider.of<EmailListData>(context, listen: false).binState,
                         showBorder: false,
                       ),
                     ),
@@ -173,7 +172,6 @@ class SideMenu extends StatelessWidget {
                         'Sign out',
                         style: TextStyle(
                             color: Colors.redAccent[700],
-                            // fontWeight: FontWeight.bold,
                             fontSize: 18),
                       ),
                       icon: Icon(
@@ -185,17 +183,25 @@ class SideMenu extends StatelessWidget {
                         backgroundColor: kBgDarkColor,
                       ),
                       onPressed: () async {
-                        await GoogleAuthApi.signOut();
                         await DatabaseUserHelper.instance.delete();
                         await DatabaseInboxEmailsHelper.instance.delete();
-                        await DatabaseBinEmailsHelper.instance.delete();
                         await DatabaseSentEmailsHelper.instance.delete();
                         await DatabaseDraftEmailsHelper.instance.delete();
-                        EmailListData.setNullEmailInboxList();
-                        EmailListData.setNullEmailDraftList();
-                        EmailListData.setNullEmailSentList();
-                        EmailListData.setNullEmailBinList();
-                        EmailListData.setNullCurrentEmailList();
+                        await DatabaseBinEmailsHelper.instance.delete();
+                        await EmailListData.setNullEmailInboxList();
+                        await EmailListData.setNullEmailDraftList();
+                        await EmailListData.setNullEmailSentList();
+                        await EmailListData.setNullEmailBinList();
+                        await EmailListData.setNullCurrentEmailList();
+                        GetMailIMAP.bin_message=null;
+                        GetMailIMAP.draft_message=null;
+                        GetMailIMAP.inbox_message=null;
+                        GetMailIMAP.sent_message=null;
+                        print(EmailListData.EmailListInbox);
+                        print(EmailListData.EmailListSent);
+                        print(EmailListData.EmailListDraft);
+                        print(EmailListData.EmailListBin);
+                        await GoogleAuthApi.signOut();
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

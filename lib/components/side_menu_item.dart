@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
 import 'counter_badge.dart';
 
@@ -17,8 +16,9 @@ class SideMenuItem extends StatelessWidget {
 
   final bool isActive, isHover, showBorder;
   final int itemCount;
-  final String iconSrc, title;
+  final String title;
   final VoidCallback press;
+  final IconData iconSrc;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +28,6 @@ class SideMenuItem extends StatelessWidget {
         onTap: press,
         child: Row(
           children: [
-            // (isActive || isHover)
-            //     ? Image.asset(
-            //         "assets/Icons/angleright.png",
-            //         width: 15,
-            //       )
-            //     : SizedBox(width: 15),
             SizedBox(width: kDefaultPadding / 4),
             Expanded(
               child: Container(
@@ -47,9 +41,9 @@ class SideMenuItem extends StatelessWidget {
                     : null,
                 child: Row(
                   children: [
-                    Image.asset(
+                    Icon(
                       iconSrc,
-                      height: 20,
+                      size: 20,
                       color: (isActive || isHover) ? kPrimaryColor : kGrayColor,
                     ),
                     SizedBox(width: kDefaultPadding * 0.75),
