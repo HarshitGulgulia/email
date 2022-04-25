@@ -1,53 +1,48 @@
 import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DatabaseEmailsHelper{
-
-  static const _dbName = 'Database.db';
+class DatabaseInboxEmailsHelper {
+  static const _dbName = 'InboxDatabase.db';
   static const _dbVersion = 1;
   static const _tableName = 'Emails';
-  static const columnId='ID';
-  static const columnIsChecked='IsChecked';
-  static const columnTime='Time';
-  static const columnImage='Image';
-  static const columnName='Name';
-  static const columnSubject='Subject';
-  static const columnBody='Body';
-  static const columnIsAttachmentAvailable='IsAttachmentAvailable';
-  static const columnTagColor='TagColor';
-  static const columnFromEmail='FromEmail';
-  static const columnHtml='Html';
-
+  static const columnId = 'ID';
+  static const columnIsChecked = 'IsChecked';
+  static const columnTime = 'Time';
+  static const columnImage = 'Image';
+  static const columnName = 'Name';
+  static const columnSubject = 'Subject';
+  static const columnBody = 'Body';
+  static const columnIsAttachmentAvailable = 'IsAttachmentAvailable';
+  static const columnTagColor = 'TagColor';
+  static const columnFromEmail = 'FromEmail';
+  static const columnHtml = 'Html';
 
   //make it a singleton class
-  DatabaseEmailsHelper._privateConstructor();
-  static final DatabaseEmailsHelper instance = DatabaseEmailsHelper._privateConstructor();
+  DatabaseInboxEmailsHelper._privateConstructor();
+  static final DatabaseInboxEmailsHelper instance =
+      DatabaseInboxEmailsHelper._privateConstructor();
 
   static Database _database;
 
-  Future<Database> get database async{
-    if(_database!=null) {
+  Future<Database> get database async {
+    if (_database != null) {
       return _database;
     }
     _database = await _initiateDatabase();
     return _database;
   }
 
-  _initiateDatabase() async{
+  _initiateDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = join(directory.path,_dbName);
+    String path = join(directory.path, _dbName);
     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
-
   }
 
   // ignore: missing_return
-  Future _onCreate(Database db,int version){
-
-    return db.execute(
-        '''
+  Future _onCreate(Database db, int version) {
+    return db.execute('''
       CREATE TABLE $_tableName (
       $columnId INTEGER PRIMARY KEY,
       $columnName TEXT,
@@ -61,31 +56,27 @@ class DatabaseEmailsHelper{
       $columnFromEmail TEXT,
       $columnHtml TEXT
        )
-      '''
-    );
-
+      ''');
   }
 
-  Future<int> insert(Map<String,dynamic> row) async{
+  Future<int> insert(Map<String, dynamic> row) async {
     Database db = await instance.database;
     return (await db?.insert(_tableName, row));
   }
 
-  Future<List<Map<String,dynamic>>> queryAll() async{
+  Future<List<Map<String, dynamic>>> queryAll() async {
     Database db = await instance.database;
     return (await db?.query(_tableName));
   }
 
-  Future<int> delete() async{
+  Future<int> delete() async {
     Database db = await instance.database;
-    return await db?.delete(_tableName);  //,where: '$columnId=?',whereArgs: [id]
+    return await db?.delete(_tableName); //,where: '$columnId=?',whereArgs: [id]
   }
 
-  Future<void> deleteDatabase() async{
+  Future<void> deleteDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = join(directory.path,_dbName);
+    String path = join(directory.path, _dbName);
     databaseFactory.deleteDatabase(path);
   }
-
-
 }

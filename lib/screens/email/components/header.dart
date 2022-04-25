@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:email_client/responsive.dart';
-
 import '../../../constants.dart';
 
 ///Header on Email Screen contains features like delete, reply, print, etc
@@ -15,59 +13,30 @@ class Header extends StatelessWidget {
       padding: const EdgeInsets.all(kDefaultPadding),
       child: Row(
         children: [
-          // We need this back button on mobile only
-          // if (Responsive.isMobile(context))
-          BackButton(),
+          BackButton(color: kGrayColor),
           IconButton(
-            icon: Image.asset(
-              "assets/Icons/trash.png",
-              width: 24,
-            ),
+            icon: Icon(Icons.delete, size: 26, color: kGrayColor),
             onPressed: () {},
           ),
           IconButton(
-            icon: Image.asset(
-              "assets/Icons/reply.png",
-              width: 24,
-            ),
+            icon: Icon(Icons.reply, size: 26, color: kGrayColor),
             onPressed: () {},
           ),
           IconButton(
-            icon: Image.asset(
-              "assets/Icons/replyall.png",
-              width: 24,
-            ),
+            icon: Icon(Icons.reply_all, size: 26, color: kGrayColor),
             onPressed: () {},
           ),
           IconButton(
-            icon: Image.asset(
-              "assets/Icons/transfer.png",
-              width: 24,
-            ),
+            icon: Icon(Icons.forward, size: 26, color: kGrayColor),
             onPressed: () {},
           ),
           Spacer(),
-          // We don't need print option on mobile
-          if (Responsive.isDesktop(context))
-            IconButton(
-              icon: Image.asset(
-                "assets/Icons/printer.png",
-                width: 24,
-              ),
-              onPressed: () {},
-            ),
           IconButton(
-            icon: Image.asset(
-              "assets/Icons/markup.png",
-              width: 24,
-            ),
+            icon: Icon(Icons.bookmark, size: 26, color: kGrayColor),
             onPressed: () {},
           ),
           IconButton(
-            icon: Image.asset(
-              "assets/Icons/morevertical.png",
-              width: 24,
-            ),
+            icon: Icon(Icons.more_vert, size: 26, color: kGrayColor),
             onPressed: () {},
           ),
         ],

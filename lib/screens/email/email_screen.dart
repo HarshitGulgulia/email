@@ -28,7 +28,6 @@ class _EmailScreenState extends State<EmailScreen> {
           child: Column(
             children: [
               Header(),
-              Divider(thickness: 1),
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.all(kDefaultPadding),
@@ -59,8 +58,3 @@ class _EmailScreenState extends State<EmailScreen> {
     );
   }
 }
-
-
-
-
-

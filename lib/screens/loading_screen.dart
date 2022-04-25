@@ -27,7 +27,6 @@ class Loader extends StatelessWidget {
             ],
           ),
         ),
-
       ),
     );
   }

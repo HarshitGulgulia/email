@@ -1,3 +1,4 @@
+import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 
 /// All of our constant schemes are defined
@@ -15,3 +16,33 @@ const kDefaultPadding = 20.0;
 
 const DATALOADED = 'Data Loaded';
 const DATALOADINGERROR = 'error';
+
+const IMAPHOSTSERVER = 'imap.gmail.com';
+const IMAPSERVERPORT = 993;
+const ISIMAPSERVERSECURE = true;
+
+const QOUTE = '"';
+const AT = '@';
+
+class Command{
+  static String _Bin='Bin';
+
+  static ImapClient _CLIENT;
+
+  static get Bin => _Bin;
+
+  static setTrash(){
+    _Bin = 'Trash';
+  }
+
+  static setBin(){
+    _Bin = 'Bin';
+  }
+
+  static get Client => _CLIENT;
+
+  static setClient(ImapClient client){
+    _CLIENT = client;
+  }
+
+}

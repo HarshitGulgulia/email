@@ -10,16 +10,12 @@ GoogleAuthApi googleApi = GoogleAuthApi();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
-
-
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 ///Login Screen ui builder with google sign-in provider
 class _LoginScreenState extends State<LoginScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           decoration: BoxDecoration(
               color: kPrimaryColor,
-              borderRadius: BorderRadius.all(Radius.circular(15))
-          ),
-
+              borderRadius: BorderRadius.all(Radius.circular(15))),
           child: SizedBox(
             height: 450,
             width: 300,
@@ -43,10 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "Sign in with Google",
                     onPressed: () async {
                       bool user = await googleApi.authenticateUser();
-                      if(user) {
+                      print(user);
+                      if (user) {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => MailLoader(user_signed_in: false)),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MailLoader(user_signed_in: false)),
                         );
                       }
                     },
@@ -60,4 +57,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
