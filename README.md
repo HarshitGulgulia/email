@@ -1,16 +1,6 @@
 # email_client
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+An email client is a program that lives on your computer and lets you send, receive and manage your emails. 
+Typical examples include Outlook and Windows Live Mail. 
+Email clients give you the freedom of handling the mails in a more efficient way. 
+An email client isn't the same as an email server, however; the latter is the hardware that transports and stores mail centrally for an email provider's many users.
