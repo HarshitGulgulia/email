@@ -27,7 +27,7 @@ const AT = '@';
 class Command{
   static String _Bin='Bin';
 
-  static ImapClient _CLIENT;
+  static MailClient _CLIENT;
 
   static get Bin => _Bin;
 
@@ -41,7 +41,7 @@ class Command{
 
   static get Client => _CLIENT;
 
-  static setClient(ImapClient client){
+  static setClient(MailClient client){
     _CLIENT = client;
   }
 
