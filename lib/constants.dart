@@ -48,3 +48,32 @@ class Command{
   }
 
 }
+
+var ColorList = {
+  'A': Colors.indigo,
+  'B': Colors.yellow,
+  'C': Colors.teal,
+  'D': Colors.green,
+  'E': Colors.purpleAccent,
+  'F': Colors.purple,
+  'G': Colors.red,
+  'H': Colors.redAccent,
+  'I': Colors.orangeAccent,
+  'J': Colors.blue[900],
+  'K': Colors.orange,
+  'L': Colors.indigo,
+  'M': Colors.amberAccent,
+  'N': Colors.amber,
+  'O': Colors.pinkAccent,
+  'P': Colors.pink,
+  'Q': Colors.indigoAccent,
+  'R': Colors.amber[700],
+  'S': Colors.blueAccent,
+  'T': Colors.blue,
+  'U': Colors.blueGrey,
+  'V': Colors.brown,
+  'W': Colors.lightBlue,
+  'X': Colors.lightBlueAccent,
+  'Y': Colors.green[800],
+  'Z': Colors.brown[900],
+};

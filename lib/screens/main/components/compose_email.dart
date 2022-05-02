@@ -42,7 +42,7 @@ class _ComposeState extends State<Compose> {
     try {
       await sendMail(email.recipients[0], email.subject, email.body,
           email.attachmentPaths); //send code
-      platformResponse = 'success';
+      platformResponse = 'Sent';
     } catch (error) {
       print(error);
       platformResponse = error.toString();

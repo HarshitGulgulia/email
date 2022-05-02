@@ -1,5 +1,6 @@
 import 'package:email_client/models/email_list_data.dart';
 import 'package:email_client/models/user_data.dart';
+import 'package:email_client/services/authapi.dart';
 import 'package:email_client/services/get_mail_imap.dart';
 import '../Database/database_inbox_emails_helper.dart';
 import '../Database/database_user_helper.dart';
@@ -35,9 +36,10 @@ class GetMailDatabase {
     List<Map<String, dynamic>> users =
         await DatabaseUserHelper.instance.queryAllUser();
     print('users: $users');
+    await GoogleAuthApi.generateRefreshToken();
     UserData.setUserData(
         users[0][DatabaseUserHelper.columnEmail],
-        users[0][DatabaseUserHelper.columnToken],
+        GoogleAuthApi.REFRESH_TOKEN,
         users[0][DatabaseUserHelper.columnImage],
         users[0][DatabaseUserHelper.columnName]);
     await GetMailIMAP.getImapEmailAuthenticate();

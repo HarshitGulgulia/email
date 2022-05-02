@@ -29,11 +29,11 @@ class GetMailIMAP {
       List<Email> emailsList;
       emailsList = ListGenerator.mimemessageToEmailList(new_message, 'inbox');
       StoreToDB.storeInboxMailList(emailsList);
-      await Provider.of<EmailListData>(CONTEXT, listen: false).addToCurrentListToInboxList(emailsList[0]);
+      await EmailListData.addToCurrentListToInboxList(emailsList[0]);
+      Provider.of<EmailListData>(CONTEXT, listen: false).updateCurrentListToInboxList();
       //Log.printMessage(inbox_message.first);
       //Log.printMessage(event.message);
     });
-
     await client.startPolling();
   }
 

@@ -21,9 +21,15 @@ class _EmailScreenDetailsState extends State<EmailScreenDetails> {
         Row(
           children: [
             CircleAvatar(
-              maxRadius: 24,
-              backgroundColor: Colors.transparent,
-              backgroundImage: AssetImage(widget.email.image),
+              backgroundColor: ColorList['${widget.email.name[0].toUpperCase()}'],
+              child: Text(
+                widget.email.name[0].toUpperCase(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 26
+                ),
+              ),
+              radius: 26,
             ),
             SizedBox(width: kDefaultPadding / 2),
             Expanded(
