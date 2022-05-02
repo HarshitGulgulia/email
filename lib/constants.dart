@@ -24,6 +24,8 @@ const ISIMAPSERVERSECURE = true;
 const QOUTE = '"';
 const AT = '@';
 
+BuildContext CONTEXT;
+
 class Command{
   static String _Bin='Bin';
 

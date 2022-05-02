@@ -78,6 +78,7 @@ class EmailListData extends ChangeNotifier{
     _currentEmailList.add(email);
     notifyListeners();
   }
+
   void updateCurrentListToInboxList(){
     _currentEmailList=_emailInboxList;
     notifyListeners();
@@ -91,6 +92,25 @@ class EmailListData extends ChangeNotifier{
     notifyListeners();
   }
   void updateCurrentListToBinList(){
+    _currentEmailList=_emailBinList;
+    notifyListeners();
+  }
+
+  void addToCurrentListToInboxList(Email email){
+    _emailInboxList.insert(_emailInboxList.length,email);
+    _currentEmailList=_emailInboxList;
+    notifyListeners();
+  }
+
+  void addToCurrentListToSentList(){
+    _currentEmailList=_emailSentList;
+    notifyListeners();
+  }
+  void addToCurrentListToDraftList(){
+    _currentEmailList=_emailDraftList;
+    notifyListeners();
+  }
+  void addToCurrentListToBinList(){
     _currentEmailList=_emailBinList;
     notifyListeners();
   }
