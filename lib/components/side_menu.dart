@@ -3,6 +3,7 @@ import 'package:email_client/Database/database_sent_emails_helper.dart';
 import 'package:email_client/Database/database_bin_emails_helper.dart';
 import 'package:email_client/Database/database_draft_emails_helper.dart';
 import 'package:email_client/models/email_list_data.dart';
+import 'package:email_client/responsive.dart';
 import 'package:email_client/services/get_mail_imap.dart';
 import 'package:provider/provider.dart';
 import 'package:email_client/Database/database_user_helper.dart';
@@ -44,7 +45,7 @@ class SideMenu extends StatelessWidget {
                           child: CircleAvatar(
                             radius: 30.0,
                             backgroundImage:
-                                NetworkImage(UserData.userData.image),
+                            NetworkImage(UserData.userData.image),
                           ),
                         ),
                       ),
@@ -101,7 +102,9 @@ class SideMenu extends StatelessWidget {
                         press: () {
                           Provider.of<EmailListData>(context, listen: false).updateInboxToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToInboxList();
-                          Navigator.pop(context);
+                          if(!Responsive.isDesktop(context)) {
+                            Navigator.pop(context);
+                          }
                         },
                         title: "Inbox",
                         iconSrc: Icons.inbox,
@@ -116,7 +119,9 @@ class SideMenu extends StatelessWidget {
                         press: () {
                           Provider.of<EmailListData>(context, listen: false).updateSentToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToSentList();
-                          Navigator.pop(context);
+                          if(!Responsive.isDesktop(context)) {
+                            Navigator.pop(context);
+                          }
                         },
                         title: "Sent",
                         iconSrc: Icons.send,
@@ -130,7 +135,9 @@ class SideMenu extends StatelessWidget {
                         press: () {
                           Provider.of<EmailListData>(context, listen: false).updateDraftToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToDraftList();
-                          Navigator.pop(context);
+                          if(!Responsive.isDesktop(context)) {
+                            Navigator.pop(context);
+                          }
                         },
                         title: "Draft",
                         iconSrc: Icons.folder_open_outlined,
@@ -144,7 +151,9 @@ class SideMenu extends StatelessWidget {
                         press: () {
                           Provider.of<EmailListData>(context, listen: false).updateBinToggle();
                           Provider.of<EmailListData>(context, listen: false).updateCurrentListToBinList();
-                          Navigator.pop(context);
+                          if(!Responsive.isDesktop(context)) {
+                            Navigator.pop(context);
+                          }
                         },
                         title: "Deleted",
                         iconSrc: Icons.delete,

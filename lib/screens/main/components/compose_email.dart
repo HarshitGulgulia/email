@@ -42,7 +42,7 @@ class _ComposeState extends State<Compose> {
     try {
       await sendMail(email.recipients[0], email.subject, email.body,
           email.attachmentPaths); //send code
-      platformResponse = 'success';
+      platformResponse = 'Sent';
     } catch (error) {
       print(error);
       platformResponse = error.toString();
@@ -55,6 +55,7 @@ class _ComposeState extends State<Compose> {
         content: Text(platformResponse),
       ),
     );
+    Navigator.pop(context);
   }
 
   @override
@@ -165,13 +166,7 @@ class _ComposeState extends State<Compose> {
                           )
                         ],
                       ),
-                    TextButton(
-                      child: const Text(
-                        'Attach file in app documents directory',
-                        style: TextStyle(color: kTitleTextColor),
-                      ),
-                      onPressed: () => _attachFileFromAppDocumentsDirectoy(),
-                    ),
+
                   ],
                 ),
               ),

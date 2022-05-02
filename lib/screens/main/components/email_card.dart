@@ -15,7 +15,6 @@ class EmailCard extends StatelessWidget {
   final bool isActive;
   final Email email;
   final VoidCallback press;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,11 +34,14 @@ class EmailCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
-                        width: 40,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: AssetImage(email.image),
+                      CircleAvatar(
+                        backgroundColor: ColorList['${email.name[0].toUpperCase()}'],
+                        child: Text(
+                          email.name[0].toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                          ),
                         ),
                       ),
                       SizedBox(width: kDefaultPadding / 2),

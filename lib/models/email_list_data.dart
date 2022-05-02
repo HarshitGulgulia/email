@@ -3,16 +3,22 @@ import 'package:flutter/foundation.dart';
 import 'package:email_client/models/Email.dart';
 
 class EmailListData extends ChangeNotifier{
-  static List<Email> _currentEmailList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
-  static List<Email> _emailInboxList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
-  static List<Email> _emailSentList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
-  static List<Email> _emailDraftList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
-  static List<Email> _emailBinList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
+  static List<Email> _currentEmailList=[];
+  static List<Email> _emailInboxList=[];
+  static List<Email> _emailSentList=[];
+  static List<Email> _emailDraftList=[];
+  static List<Email> _emailBinList=[];
 
   bool _inboxIsToggled = true;
   bool _sentIsToggled = false;
   bool _draftIsToggled = false;
   bool _binIsToggled = false;
+
+  Future<bool> checkMailExist()async{
+    if(_currentEmailList.isEmpty)
+      return false;
+    return true;
+  }
 
   UnmodifiableListView get EmailList {
     return UnmodifiableListView(_currentEmailList);
@@ -55,42 +61,59 @@ class EmailListData extends ChangeNotifier{
   }
 
   static setNullEmailInboxList(){
-    _emailInboxList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
+    _emailInboxList=[];
   }
 
   static setNullEmailSentList(){
-    _emailSentList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
+    _emailSentList=[];
   }
 
   static setNullEmailDraftList(){
-    _emailDraftList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
+    _emailDraftList=[];
   }
 
   static setNullEmailBinList(){
-    _emailBinList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
+    _emailBinList=[];
   }
 
   static setNullCurrentEmailList(){
-    _currentEmailList=[Email(time:'',isChecked: true, image: "assets/images/avatar.png", name: '', subject: ' ', body: ' ',isAttachmentAvailable: false, tagColor: null,from_email: ' ',html: ' ')];
+    _currentEmailList=[];
   }
 
-  void addEmail(Email email){
-    _currentEmailList.add(email);
-    notifyListeners();
-  }
   void updateCurrentListToInboxList(){
     _currentEmailList=_emailInboxList;
     notifyListeners();
   }
+
   void updateCurrentListToSentList(){
     _currentEmailList=_emailSentList;
     notifyListeners();
   }
+
   void updateCurrentListToDraftList(){
     _currentEmailList=_emailDraftList;
     notifyListeners();
   }
+
   void updateCurrentListToBinList(){
+    _currentEmailList=_emailBinList;
+    notifyListeners();
+  }
+
+  static void addToCurrentListToInboxList(Email email){
+    _emailInboxList.insert(_emailInboxList.length,email);
+    _currentEmailList=_emailInboxList;
+  }
+
+  void addToCurrentListToSentList(){
+    _currentEmailList=_emailSentList;
+    notifyListeners();
+  }
+  void addToCurrentListToDraftList(){
+    _currentEmailList=_emailDraftList;
+    notifyListeners();
+  }
+  void addToCurrentListToBinList(){
     _currentEmailList=_emailBinList;
     notifyListeners();
   }

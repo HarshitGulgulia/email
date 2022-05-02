@@ -1,3 +1,4 @@
+import 'package:email_client/constants.dart';
 import 'package:email_client/screens/login/login_wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CONTEXT = context;
     return LoginWrapper();
   }
 }
