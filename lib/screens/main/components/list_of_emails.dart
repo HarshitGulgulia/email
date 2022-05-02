@@ -24,6 +24,7 @@ class _ListOfEmailsState extends State<ListOfEmails> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    CONTEXT = context;
     var emailList = Provider.of<EmailListData>(context);
     return Scaffold(
       key: _scaffoldKey,

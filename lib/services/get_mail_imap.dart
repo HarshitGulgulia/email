@@ -4,11 +4,13 @@ import 'package:email_client/models/Email.dart';
 import 'package:email_client/models/user_data.dart';
 import 'package:enough_mail/enough_mail.dart';
 import 'package:email_client/logs/log_functions.dart';
+import 'package:provider/provider.dart';
 import '../models/email_list_data.dart';
 
 class GetMailIMAP {
   static List<Email> inboxEmails, sentEmails, draftEmails, binEmails;
   static List<MimeMessage> inbox_message;
+  static List<MimeMessage> new_message;
   static List<MimeMessage> sent_message;
   static List<MimeMessage> draft_message;
   static List<MimeMessage> bin_message;
@@ -19,13 +21,19 @@ class GetMailIMAP {
 
   static new_inbox(MailClient client) async {
     await client.selectInbox();
+
     client.eventBus.on<MailLoadEvent>().listen((event) async {
       print('New message at ${DateTime.now()}:');
       final fetchNewMessage = await client.fetchMessages(count: 0);
-      inbox_message.insert(0, fetchNewMessage.first);
+      new_message=fetchNewMessage;
+      List<Email> emailsList;
+      emailsList = ListGenerator.mimemessageToEmailList(new_message, 'inbox');
+      StoreToDB.storeInboxMailList(emailsList);
+      await Provider.of<EmailListData>(CONTEXT, listen: false).addToCurrentListToInboxList(emailsList[0]);
       //Log.printMessage(inbox_message.first);
       //Log.printMessage(event.message);
     });
+
     await client.startPolling();
   }
 
@@ -54,7 +62,7 @@ class GetMailIMAP {
       if (box.messagesExists == 0) {
         return "Zero";
       }
-      final fetchResult = await client.fetchMessages(count: 30);
+      final fetchResult = await client.fetchMessages(count: 15);
       sent_message = fetchResult;
 
       // for (final message in fetchResult.messages) {
@@ -73,7 +81,7 @@ class GetMailIMAP {
       if (box.messagesExists == 0) {
         return "Zero";
       }
-      final fetchResult = await client.fetchMessages(count: 30);
+      final fetchResult = await client.fetchMessages(count: 15);
       draft_message = fetchResult;
 
       // for (final message in fetchResult.messages) {
@@ -92,7 +100,7 @@ class GetMailIMAP {
       if (box.messagesExists == 0) {
         return 'Zero';
       }
-      final fetchResult = await client.fetchMessages(count: 30);
+      final fetchResult = await client.fetchMessages(count: 15);
       bin_message = fetchResult;
 
       // for (final message in fetchResult.messages) {
@@ -128,13 +136,8 @@ class GetMailIMAP {
       print('inside try');
       await mailClient.connect();
       print('connected');
-      final mailboxes =
-      await mailClient.listMailboxesAsTree(createIntermediate: false);
+      final mailboxes = await mailClient.listMailboxes();
       print(mailboxes);
-      await fetchInbox(mailClient);
-      await fetchSentMail(mailClient);
-      await fetchDrafts(mailClient);
-      await fetchBin(mailClient);
       return DATALOADED;
     } on MailException catch (e) {
       print('High level API failed with $e');
@@ -189,6 +192,10 @@ class GetMailIMAP {
 
   static Future<String> getEmailAPI() async {
     var response = await getImapEmailAuthenticate();
+    await fetchInbox(Command.Client);
+    await fetchSentMail(Command.Client);
+    await fetchDrafts(Command.Client);
+    await fetchBin(Command.Client);
     response = await saveToDB(response);
     new_inbox(Command.Client);
     return response;
