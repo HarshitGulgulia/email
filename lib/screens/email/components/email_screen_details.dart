@@ -21,13 +21,11 @@ class _EmailScreenDetailsState extends State<EmailScreenDetails> {
         Row(
           children: [
             CircleAvatar(
-              backgroundColor: ColorList['${widget.email.name[0].toUpperCase()}'],
+              backgroundColor:
+                  ColorList['${widget.email.name[0].toUpperCase()}'],
               child: Text(
-                widget.email.name[0].toUpperCase(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26
-                ),
+                widget.email.image.toUpperCase(),
+                style: TextStyle(color: Colors.white, fontSize: 30),
               ),
               radius: 26,
             ),

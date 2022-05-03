@@ -15,14 +15,24 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
+  WebViewPlusController _controller;
+  double h=7000;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 7000,
+      height: h,
       child: WebViewPlus(
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (controller) async {
+          _controller=controller;
           await controller.loadString(widget.email.html);
+        },
+        onPageFinished: (double){
+          _controller.getHeight().then((height) async{
+          await setState(() {
+            h=height;
+          });
+        });
         },
       ),
     );

@@ -21,16 +21,16 @@ class GetMailIMAP {
 
   static new_inbox(MailClient client) async {
     await client.selectInbox();
-
     client.eventBus.on<MailLoadEvent>().listen((event) async {
       print('New message at ${DateTime.now()}:');
       final fetchNewMessage = await client.fetchMessages(count: 0);
-      new_message=fetchNewMessage;
+      new_message = fetchNewMessage;
       List<Email> emailsList;
       emailsList = ListGenerator.mimemessageToEmailList(new_message, 'inbox');
       StoreToDB.storeInboxMailList(emailsList);
       await EmailListData.addToCurrentListToInboxList(emailsList[0]);
-      Provider.of<EmailListData>(CONTEXT, listen: false).updateCurrentListToInboxList();
+      Provider.of<EmailListData>(CONTEXT, listen: false)
+          .updateCurrentListToInboxList();
       //Log.printMessage(inbox_message.first);
       //Log.printMessage(event.message);
     });
@@ -128,7 +128,7 @@ class GetMailIMAP {
 
     print('connecting to ${config.displayName}.');
     final account =
-    MailAccount.fromDiscoveredSettingsWithAuth(name, email, auth, config);
+        MailAccount.fromDiscoveredSettingsWithAuth(name, email, auth, config);
     print('account created');
     final mailClient = MailClient(account, isLogEnabled: true);
     Command.setClient(mailClient);
@@ -190,14 +190,19 @@ class GetMailIMAP {
     return response;
   }
 
-  static Future<String> getEmailAPI() async {
-    var response = await getImapEmailAuthenticate();
+  static Future<String> fetchMail(String response) async {
     await fetchInbox(Command.Client);
     await fetchSentMail(Command.Client);
     await fetchDrafts(Command.Client);
     await fetchBin(Command.Client);
     response = await saveToDB(response);
     new_inbox(Command.Client);
+    return response;
+  }
+
+  static Future<String> getEmailAPI() async {
+    var response = await getImapEmailAuthenticate();
+    response = await fetchMail(response);
     return response;
   }
 }
