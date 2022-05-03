@@ -62,7 +62,7 @@ class GetMailIMAP {
       if (box.messagesExists == 0) {
         return "Zero";
       }
-      final fetchResult = await client.fetchMessages(count: 15);
+      final fetchResult = await client.fetchMessages(count: 10);
       sent_message = fetchResult;
 
       // for (final message in fetchResult.messages) {
@@ -81,7 +81,7 @@ class GetMailIMAP {
       if (box.messagesExists == 0) {
         return "Zero";
       }
-      final fetchResult = await client.fetchMessages(count: 15);
+      final fetchResult = await client.fetchMessages(count: 10);
       draft_message = fetchResult;
 
       // for (final message in fetchResult.messages) {
@@ -100,7 +100,7 @@ class GetMailIMAP {
       if (box.messagesExists == 0) {
         return 'Zero';
       }
-      final fetchResult = await client.fetchMessages(count: 15);
+      final fetchResult = await client.fetchMessages(count: 10);
       bin_message = fetchResult;
 
       // for (final message in fetchResult.messages) {
@@ -190,11 +190,17 @@ class GetMailIMAP {
     return response;
   }
 
-  static Future<String> fetchMail(String response) async {
-    await fetchInbox(Command.Client);
-    await fetchSentMail(Command.Client);
-    await fetchDrafts(Command.Client);
-    await fetchBin(Command.Client);
+  static Future<String> fetchMail(String response,String from) async {
+    if (from == 'fetch_all') {
+      await fetchInbox(Command.Client);
+      await fetchSentMail(Command.Client);
+      await fetchDrafts(Command.Client);
+      await fetchBin(Command.Client);
+    }
+    else if(from=='refresh_inbox')
+    {
+      await fetchInbox(Command.Client);
+    }
     response = await saveToDB(response);
     new_inbox(Command.Client);
     return response;
@@ -202,7 +208,7 @@ class GetMailIMAP {
 
   static Future<String> getEmailAPI() async {
     var response = await getImapEmailAuthenticate();
-    response = await fetchMail(response);
+    response = await fetchMail(response,'fetch_all');
     return response;
   }
 }

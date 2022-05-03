@@ -28,8 +28,7 @@ class Email {
         DatabaseInboxEmailsHelper.columnImage: image,
         DatabaseInboxEmailsHelper.columnSubject: subject,
         DatabaseInboxEmailsHelper.columnBody: body,
-        DatabaseInboxEmailsHelper.columnIsAttachmentAvailable:
-            isAttachmentAvailable,
+        DatabaseInboxEmailsHelper.columnIsAttachmentAvailable: isAttachmentAvailable,
         DatabaseInboxEmailsHelper.columnTagColor: tagColor.toString(),
         DatabaseInboxEmailsHelper.columnFromEmail: from_email,
         DatabaseInboxEmailsHelper.columnHtml: html,
@@ -50,12 +49,7 @@ class ListGenerator {
                   : mail_message[index].from.toString().substring(
                       1, mail_message[index].from.toString().indexOf(AT)),
           image: box == 'sent'
-              ? mail_message[index].recipientAddresses.toString().substring(
-                  1,
-                  mail_message[index]
-                      .recipientAddresses
-                      .toString()
-                      .lastIndexOf(']'))[0]
+              ? mail_message[index].recipientAddresses.toString().substring(1, mail_message[index].recipientAddresses.toString().lastIndexOf(']'))[0]
               : mail_message[index].from.toString()[1] == '"'
                   ? mail_message[index].from.toString().substring(2,
                       mail_message[index].from.toString().lastIndexOf(QOUTE))[0]
@@ -90,9 +84,7 @@ class ListGenerator {
           from_email: rows[index][DatabaseInboxEmailsHelper.columnFromEmail],
           image: rows[index][DatabaseInboxEmailsHelper.columnImage],
           subject: rows[index][DatabaseInboxEmailsHelper.columnSubject],
-          isAttachmentAvailable: (rows[index]
-                      [DatabaseInboxEmailsHelper.columnIsAttachmentAvailable] ==
-                  1)
+          isAttachmentAvailable: (rows[index][DatabaseInboxEmailsHelper.columnIsAttachmentAvailable] == 1)
               ? true
               : false,
           isChecked:

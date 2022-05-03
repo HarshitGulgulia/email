@@ -125,14 +125,8 @@ class _ListOfEmailsState extends State<ListOfEmails> {
                     // });
                     await DatabaseUserHelper.instance.delete();
                     await DatabaseInboxEmailsHelper.instance.delete();
-                    await DatabaseSentEmailsHelper.instance.delete();
-                    await DatabaseDraftEmailsHelper.instance.delete();
-                    await DatabaseBinEmailsHelper.instance.delete();
                     await EmailListData.setNullEmailInboxList();
-                    await EmailListData.setNullEmailDraftList();
-                    await EmailListData.setNullEmailSentList();
-                    await EmailListData.setNullEmailBinList();
-                    await GetMailIMAP.fetchMail(DATALOADED);
+                    await GetMailIMAP.fetchMail(DATALOADED,'refresh_inbox');
                     Provider.of<EmailListData>(context, listen: false)
                         .updateCurrentListToInboxList();
                     ScaffoldMessenger.of(context).showSnackBar(
