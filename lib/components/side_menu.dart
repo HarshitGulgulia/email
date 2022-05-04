@@ -210,6 +210,7 @@ class SideMenu extends StatelessWidget {
                         print(EmailListData.EmailListSent);
                         print(EmailListData.EmailListDraft);
                         print(EmailListData.EmailListBin);
+                        await Command.Client.disconnect();
                         await GoogleAuthApi.signOut();
                         Navigator.pushReplacement(
                           context,

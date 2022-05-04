@@ -202,13 +202,13 @@ class GetMailIMAP {
       await fetchInbox(Command.Client);
     }
     response = await saveToDB(response);
-    new_inbox(Command.Client);
     return response;
   }
 
   static Future<String> getEmailAPI() async {
     var response = await getImapEmailAuthenticate();
     response = await fetchMail(response,'fetch_all');
+    new_inbox(Command.Client);
     return response;
   }
 }
