@@ -35,9 +35,10 @@ class EmailCard extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundColor: ColorList['${email.name[0].toUpperCase()}'],
+                        backgroundColor:
+                            ColorList['${email.image.toUpperCase()}'],
                         child: Text(
-                          email.name[0].toUpperCase(),
+                          email.image.toUpperCase(),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 26,
@@ -52,7 +53,7 @@ class EmailCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: isActive ? Colors.white : kTextColor,
+                              color: isActive ? Colors.white : kTextColorDark,
                             ),
                             children: [
                               TextSpan(
@@ -106,7 +107,7 @@ class EmailCard extends StatelessWidget {
               topShadowColor: Colors.white60,
               bottomShadowColor: Color(0xFF234395).withOpacity(0.15),
             ),
-            if (!email.isChecked)
+            if (email.isChecked)
               Positioned(
                 right: 8,
                 top: 8,

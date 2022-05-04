@@ -5,7 +5,30 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../constants.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+
 import '../../../services/send_mail.dart';
+
+class MyAppGlobalLoaderOverlay extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GlobalLoaderOverlay(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primaryColor: Colors.black,
+          fontFamily: 'Baloo',
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => Compose(),
+        },
+      ),
+    );
+  }
+}
 
 class Compose extends StatefulWidget {
   const Compose({Key key}) : super(key: key);
@@ -16,6 +39,7 @@ class Compose extends StatefulWidget {
 
 class _ComposeState extends State<Compose> {
   List<String> attachments = [];
+  bool _isLoaderVisible = false;
   bool isHTML = false;
 
   final _recipientController = TextEditingController(
@@ -42,6 +66,7 @@ class _ComposeState extends State<Compose> {
     try {
       await sendMail(email.recipients[0], email.subject, email.body,
           email.attachmentPaths); //send code
+
       platformResponse = 'Sent';
     } catch (error) {
       print(error);
@@ -52,7 +77,13 @@ class _ComposeState extends State<Compose> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(platformResponse),
+        content: Text(
+          platformResponse,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.green,
       ),
     );
     Navigator.pop(context);
@@ -85,92 +116,114 @@ class _ComposeState extends State<Compose> {
             padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: IconButton(
               color: Colors.black,
-              onPressed: send,
+              onPressed: () async {
+                context.loaderOverlay.show();
+                setState(() {
+                  _isLoaderVisible = context.loaderOverlay.visible;
+                });
+                await send();
+                if (_isLoaderVisible) {
+                  context.loaderOverlay.hide();
+                }
+                setState(() {
+                  _isLoaderVisible = context.loaderOverlay.visible;
+                });
+              },
               icon: const Icon(Icons.send),
             ),
           )
         ],
       ),
-      body: Container(
-        color: kBgLightColor,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _recipientController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Recipient',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _subjectController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Subject',
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
+      body: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidget: Center(
+          child: SpinKitRing(
+            color: kPrimaryColor,
+            size: 50.0,
+          ),
+        ),
+        overlayColor: Colors.black,
+        overlayOpacity: 0.8,
+        child: Container(
+          color: kBgLightColor,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: _bodyController,
-                    maxLines: null,
-                    expands: true,
-                    textAlignVertical: TextAlignVertical.top,
+                    controller: _recipientController,
                     decoration: const InputDecoration(
-                        labelText: 'Body', border: OutlineInputBorder()),
+                      border: OutlineInputBorder(),
+                      labelText: 'Recipient',
+                    ),
                   ),
                 ),
-              ),
-              CheckboxListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-                title: const Text('HTML'),
-                onChanged: (bool value) {
-                  if (value != null) {
-                    setState(() {
-                      isHTML = value;
-                    });
-                  }
-                },
-                value: isHTML,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    for (var i = 0; i < attachments.length; i++)
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              attachments[i],
-                              softWrap: false,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.remove_circle),
-                            onPressed: () => {_removeAttachment(i)},
-                          )
-                        ],
-                      ),
-
-                  ],
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _subjectController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Subject',
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: _bodyController,
+                      maxLines: null,
+                      expands: true,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: const InputDecoration(
+                          labelText: 'Body', border: OutlineInputBorder()),
+                    ),
+                  ),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 0.0, horizontal: 8.0),
+                  title: const Text('HTML'),
+                  onChanged: (bool value) {
+                    if (value != null) {
+                      setState(() {
+                        isHTML = value;
+                      });
+                    }
+                  },
+                  value: isHTML,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      for (var i = 0; i < attachments.length; i++)
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                attachments[i],
+                                softWrap: false,
+                                overflow: TextOverflow.fade,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.remove_circle),
+                              onPressed: () => {_removeAttachment(i)},
+                            )
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -210,6 +263,7 @@ class _ComposeState extends State<Compose> {
             'Failed to create file in application directory',
             style: TextStyle(color: kPrimaryColor),
           ),
+          backgroundColor: Colors.red,
         ),
       );
     }

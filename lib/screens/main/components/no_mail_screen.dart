@@ -76,7 +76,13 @@ class NoMail extends StatelessWidget {
               SizedBox(height: kDefaultPadding),
               Expanded(
                 child: Center(
-                  child: Text("No Emails Sorry!!!"),
+                  child: Text(
+                      "No Emails Sorry!!!",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: kTextColor,
+                    ),
+                  ),
                 ),
               ),
             ],

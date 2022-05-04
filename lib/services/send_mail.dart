@@ -22,7 +22,7 @@ sendMail(String sendTo, String mailSubject, String mailText,
 
   final message = Message()
     ..from = Address(email, username)
-    ..recipients.add(sendTo)
+    ..recipients.add(sendTo.trimRight())
     //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
     //..bccRecipients.add(Address('bccAddress@example.com'))
     ..subject = mailSubject
